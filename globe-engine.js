@@ -457,11 +457,18 @@ function drawISSInOrbit(ctx, ox, oy, R, t){
 window.initISSIntro = function(){
   const canvas=document.getElementById('iss-canvas');
   const ctx=canvas.getContext('2d');
-  let W, H;
-  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+  let W, H, DPR=1;
+  function resize(){
+    DPR=Math.min(window.devicePixelRatio||1, window.__pixelCap||2);
+    W=window.innerWidth; H=window.innerHeight;
+    canvas.width=Math.round(W*DPR); canvas.height=Math.round(H*DPR);
+    canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
   resize(); window.addEventListener('resize',resize,{passive:true});
+  window.__resizeISS=resize;
 
-  // Stars
+  // Stars (capacity 700; render count is dynamic via __starCount)
   const stars=[];
   for(let i=0;i<700;i++) stars.push({
     x:Math.random(),y:Math.random(),
@@ -502,6 +509,15 @@ window.initISSIntro = function(){
 
   function frame(){
     t++;
+    // Skip-frame throttle (1=60fps, 2=30fps, 3=20fps)
+    const skip=window.__frameSkip||1;
+    if(skip>1 && (t%skip)!==0){ requestAnimationFrame(frame); return; }
+    // Pause when scrolled past the intro
+    const driverEl=document.getElementById('iss-scroll-driver');
+    if(driverEl){
+      const dy=driverEl.getBoundingClientRect().bottom;
+      if(dy<-50){ requestAnimationFrame(frame); return; }
+    }
     const p=getProgress();
     ctx.clearRect(0,0,W,H);
 
@@ -511,23 +527,26 @@ window.initISSIntro = function(){
     ctx.fillStyle=sg; ctx.fillRect(0,0,W,H);
 
     /* Orange nebula wisps — matches theme */
-    nebulas.forEach(n=>{
-      const ng=ctx.createRadialGradient(n.x*W,n.y*H,0,n.x*W,n.y*H,n.r*Math.min(W,H));
-      ng.addColorStop(0,`hsla(${n.h},80%,55%,${n.a})`);
-      ng.addColorStop(1,'transparent');
-      ctx.fillStyle=ng; ctx.fillRect(0,0,W,H);
-    });
+    if(window.__nebula!==false){
+      nebulas.forEach(n=>{
+        const ng=ctx.createRadialGradient(n.x*W,n.y*H,0,n.x*W,n.y*H,n.r*Math.min(W,H));
+        ng.addColorStop(0,`hsla(${n.h},80%,55%,${n.a})`);
+        ng.addColorStop(1,'transparent');
+        ctx.fillStyle=ng; ctx.fillRect(0,0,W,H);
+      });
+    }
 
     /* Stars */
     const starFade=p<P1?1:lerp(1,0.18,(p-P1)/(1-P1));
-    stars.forEach(s=>{
+    const starN=Math.min(stars.length, window.__starCount ?? 700);
+    for(let i=0;i<starN;i++){ const s=stars[i];
       const tw=0.5+0.5*Math.sin(t*s.tw*0.003+s.to);
       const col=s.hue==='warm'?`rgba(255,220,190,${s.a*tw*starFade})`
                :s.hue==='cool'?`rgba(190,210,255,${s.a*tw*starFade})`
                :`rgba(255,255,255,${s.a*tw*starFade})`;
       ctx.beginPath(); ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
       ctx.fillStyle=col; ctx.fill();
-    });
+    }
 
     const rotY=t*0.006;
     const shortSide=Math.min(W,H);
@@ -538,9 +557,10 @@ window.initISSIntro = function(){
       const eX=W*0.5, eY=H*0.5;
       const eR=fullR*(1-p*0.04); // very subtle zoom-out
       drawEarth(ctx,eX,eY,eR,rotY,t);
-      // ISS + sats
+      // ISS + sats (count tweakable)
       drawISSInOrbit(ctx,eX,eY,eR,t);
-      SAT_DATA.forEach(s=>drawSatellite(ctx,eX,eY,eR,s,t));
+      const satN=Math.min(SAT_DATA.length, window.__satCount ?? SAT_DATA.length);
+      for(let i=0;i<satN;i++) drawSatellite(ctx,eX,eY,eR,SAT_DATA[i],t);
     }
 
     /* ── Phase P1 → P2: Earth→wireframe morph, fly to hero ── */
@@ -567,7 +587,8 @@ window.initISSIntro = function(){
       if(satA>0.01){
         ctx.save(); ctx.globalAlpha=satA;
         drawISSInOrbit(ctx,W*0.5,H*0.5,fullR,t);
-        SAT_DATA.forEach(s=>drawSatellite(ctx,W*0.5,H*0.5,fullR,s,t));
+        const satN=Math.min(SAT_DATA.length, window.__satCount ?? SAT_DATA.length);
+        for(let i=0;i<satN;i++) drawSatellite(ctx,W*0.5,H*0.5,fullR,SAT_DATA[i],t);
         ctx.restore();
       }
     }
