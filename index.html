@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shubham A. D. — Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg: #0a0b10;
+      --bg2: #0f1018;
+      --bg3: #14151f;
+      --fg: oklch(0.95 0.008 80);
+      --fg2: oklch(0.72 0.01 80);
+      --fg3: oklch(0.48 0.01 80);
+      --gold: #ff6a00;
+      --gold-dim: rgba(255,106,0,0.15);
+      --gold-glow: rgba(255,106,0,0.35);
+      --card-bg: rgba(18,19,28,0.8);
+      --border: rgba(255,255,255,0.07);
+      --radius: 16px;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: auto; }
+    body {
+      background: var(--bg); color: var(--fg);
+      font-family: var(--font-body); font-size: 16px;
+      line-height: 1.6; overflow-x: hidden; cursor: none;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,106,0,0.3); border-radius: 4px; }
+
+    /* CURSOR */
+    #cursor-dot {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--gold); border-radius: 50%; pointer-events: none;
+      z-index: 9999; transform: translate(-50%,-50%);
+      transition: transform 0.08s ease;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+      border: 1.5px solid var(--gold); border-radius: 50%; pointer-events: none;
+      z-index: 9998; transform: translate(-50%,-50%);
+      transition: width 0.2s, height 0.2s, opacity 0.2s; opacity: 0.6;
+    }
+    body:not(.cursor-loaded) #cursor-dot,
+    body:not(.cursor-loaded) #cursor-ring { opacity: 0; }
+    .trail-dot {
+      position: fixed; width: 4px; height: 4px; border-radius: 50%;
+      background: var(--gold); pointer-events: none; z-index: 9990;
+      transform: translate(-50%,-50%);
+    }
+    #noise {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 20px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.6s, backdrop-filter 0.6s;
+    }
+    nav.scrolled {
+      backdrop-filter: blur(20px);
+      background: rgba(10,11,16,0.8);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display); font-weight: 800; font-size: 1.1rem;
+      color: var(--fg); letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; color: var(--fg2); text-decoration: none;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.3s cubic-bezier(0.23,1,0.32,1);
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ═══ ISS INTRO ═══ */
+    #iss-scroll-driver { height: 350vh; position: relative; }
+    #iss-sticky {
+      position: sticky; top: 0; width: 100%; height: 100vh; overflow: hidden;
+    }
+    #iss-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* HUD overlay */
+    #iss-hud {
+      position: absolute; inset: 0; pointer-events: none;
+      z-index: 10; transition: opacity 0.6s;
+    }
+    .hud-corner {
+      position: absolute; font-family: monospace; font-size: 0.65rem;
+      color: rgba(255,255,255,0.32); letter-spacing: 0.1em; line-height: 1.9;
+    }
+    .hud-tl { top: 88px; left: 32px; }
+    .hud-tr { top: 88px; right: 32px; text-align: right; }
+    .hud-bl { bottom: 80px; left: 32px; }
+    .hud-br { bottom: 80px; right: 32px; text-align: right; }
+    .hud-crosshair {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 80px; height: 80px;
+    }
+    .hud-crosshair::before, .hud-crosshair::after {
+      content: ''; position: absolute; background: rgba(255,255,255,0.18);
+    }
+    .hud-crosshair::before { width: 1px; height: 100%; left: 50%; top: 0; }
+    .hud-crosshair::after  { width: 100%; height: 1px; top: 50%; left: 0; }
+    .hud-corner-bracket {
+      position: absolute; width: 16px; height: 16px;
+      border-color: rgba(255,255,255,0.22); border-style: solid;
+    }
+    .hud-corner-bracket.tl { top: 50%; left: 50%; margin: -40px 0 0 -40px; border-width: 1px 0 0 1px; }
+    .hud-corner-bracket.tr { top: 50%; left: 50%; margin: -40px 0 0 24px;  border-width: 1px 1px 0 0; }
+    .hud-corner-bracket.bl { top: 50%; left: 50%; margin: 24px 0 0 -40px;  border-width: 0 0 1px 1px; }
+    .hud-corner-bracket.br { top: 50%; left: 50%; margin: 24px 0 0 24px;   border-width: 0 1px 1px 0; }
+
+    #iss-scroll-hint {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 20; animation: fadeInShift 1s 1.5s both;
+    }
+    #iss-scroll-hint span {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+    }
+    .iss-scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.38), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    #iss-caption {
+      position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%);
+      text-align: center; z-index: 20; white-space: nowrap; transition: opacity 0.5s;
+    }
+    #iss-caption .cap1 {
+      font-family: monospace; font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+    }
+    #iss-caption .cap2 {
+      font-family: var(--font-display); font-size: 1.05rem; font-weight: 700;
+      color: rgba(255,255,255,0.65); letter-spacing: -0.01em; margin-top: 4px;
+    }
+
+    /* ═══ HERO ═══ */
+    #hero {
+      min-height: 100vh; display: grid; place-items: center;
+      padding: 120px 60px 80px; overflow: hidden; position: relative;
+      /* Pull hero up so it overlaps the end of the sticky ISS canvas — zero gap */
+      margin-top: -100vh;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 1s ease, transform 1s ease;
+      pointer-events: none;
+    }
+    #hero.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; max-width: 1200px; width: 100%;
+    }
+    .hero-label {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+    }
+    #hero.visible .hero-label { opacity: 1; transform: translateY(0); }
+    .hero-label::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
+    .hero-title {
+      font-family: var(--font-display); font-size: clamp(3rem,5.5vw,5.2rem);
+      font-weight: 800; line-height: 1.0; letter-spacing: -0.03em;
+      color: var(--fg); text-wrap: balance;
+    }
+    .hero-title .line { display: block; overflow: hidden; }
+    .hero-title .line span { display: block; }
+    .hero-title.animate .line span { animation: slideUp 0.9s cubic-bezier(0.23,1,0.32,1) both; }
+    .hero-title.animate .line:nth-child(2) span { animation-delay: 0.12s; }
+    .hero-title.animate .line:nth-child(3) span { animation-delay: 0.24s; }
+    .hero-accent { color: var(--gold); }
+    .hero-sub {
+      margin-top: 28px; max-width: 440px;
+      color: var(--fg2); font-size: 1.05rem; line-height: 1.7; font-weight: 300;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+    }
+    #hero.visible .hero-sub { opacity: 1; transform: translateY(0); }
+    .hero-ctas {
+      margin-top: 40px; display: flex; gap: 16px; align-items: center;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.8s ease 0.7s, transform 0.8s ease 0.7s;
+    }
+    #hero.visible .hero-ctas { opacity: 1; transform: translateY(0); }
+    .btn-primary {
+      padding: 14px 32px; background: var(--gold); color: #0a0b10;
+      font-family: var(--font-display); font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase; border: none;
+      border-radius: 40px; cursor: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px var(--gold-glow); }
+    .btn-ghost {
+      padding: 14px 32px; background: transparent; color: var(--fg2);
+      font-family: var(--font-display); font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      border: 1px solid var(--border); border-radius: 40px; cursor: none;
+      transition: border-color 0.2s, color 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Globe */
+    .globe-wrap {
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    #globe-canvas {
+      border-radius: 50%;
+      box-shadow: 0 0 80px var(--gold-glow), 0 0 160px rgba(255,106,0,0.07);
+      opacity: 0;
+      transition: opacity 0.8s ease 0.4s;
+    }
+    #hero.visible #globe-canvas { opacity: 1; }
+    .globe-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(255,106,0,0.15); pointer-events: none;
+      opacity: 0; transition: opacity 0.6s ease 0.4s;
+    }
+    #hero.visible .globe-ring { opacity: 1; }
+    .globe-ring:nth-child(2) { width:120%; height:120%; animation: spinRing 14s linear infinite reverse; }
+    .globe-ring:nth-child(3) { width:145%; height:145%; animation: spinRing 22s linear infinite; border-style:dashed; opacity:0; }
+    #hero.visible .globe-ring:nth-child(3) { opacity: 0.35; }
+
+    /* SECTION COMMON */
+    section { position: relative; }
+    .section-header { text-align: center; margin-bottom: 72px; }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem,4vw,3.2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.1; color: var(--fg); }
+    .section-title em { font-style: normal; color: var(--gold); }
+    .section-desc { margin-top: 16px; color: var(--fg2); max-width: 500px; margin-left: auto; margin-right: auto; font-size: 1rem; font-weight: 300; }
+
+    /* PROJECTS */
+    #projects { padding: 120px 60px; background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+    .project-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; cursor: none; transition: border-color 0.3s;
+      transform-style: preserve-3d; will-change: transform;
+      backdrop-filter: blur(12px); position: relative;
+    }
+    .project-card::before {
+      content:''; position: absolute; inset: 0; border-radius: var(--radius);
+      background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,106,0,0.1) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1;
+    }
+    .project-card:hover::before { opacity: 1; }
+    .project-card:hover { border-color: rgba(255,106,0,0.3); }
+    .project-thumb {
+      width: 100%; aspect-ratio: 16/9; background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; border-bottom: 1px solid var(--border);
+    }
+    .project-thumb-label { font-size: 0.7rem; letter-spacing: 0.08em; color: var(--fg3); font-family: monospace; text-align: center; padding: 12px; }
+    .thumb-stripes {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(255,255,255,0.013) 12px, rgba(255,255,255,0.013) 13px);
+    }
+    .project-tag {
+      position: absolute; top: 14px; right: 14px; padding: 4px 10px; border-radius: 20px;
+      font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase;
+      background: rgba(255,106,0,0.12); color: var(--gold); border: 1px solid rgba(255,106,0,0.25);
+    }
+    .project-body { padding: 24px; position: relative; z-index: 2; }
+    .project-num { font-size: 0.68rem; letter-spacing: 0.1em; color: var(--fg3); font-family: monospace; margin-bottom: 10px; }
+    .project-name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); margin-bottom: 10px; line-height: 1.25; }
+    .project-desc { font-size: 0.9rem; color: var(--fg2); line-height: 1.6; font-weight: 300; margin-bottom: 20px; }
+    .project-footer { display: flex; justify-content: space-between; align-items: center; }
+    .project-stack { display: flex; gap: 6px; flex-wrap: wrap; }
+    .stack-chip { padding: 3px 8px; border-radius: 4px; background: rgba(255,255,255,0.05); font-size: 0.68rem; color: var(--fg3); letter-spacing: 0.04em; }
+    .project-arrow { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--fg2); font-size: 0.9rem; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+    .project-card:hover .project-arrow { background: var(--gold); color: #0a0b10; border-color: var(--gold); }
+    .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
+    .project-card.featured .project-thumb { aspect-ratio: auto; border-bottom: none; border-right: 1px solid var(--border); min-height: 280px; }
+    .project-card.featured .project-body { padding: 40px; }
+    .project-card.featured .project-name { font-size: 1.8rem; }
+
+    /* BLOG */
+    #blog { padding: 120px 60px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; }
+    .blog-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; cursor: none;
+      transition: border-color 0.3s, transform 0.3s cubic-bezier(0.23,1,0.32,1);
+      backdrop-filter: blur(12px); position: relative; overflow: hidden;
+    }
+    .blog-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--gold); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .blog-card:hover { border-color: rgba(255,106,0,0.3); transform: translateY(-4px); }
+    .blog-card:hover::after { transform: scaleX(1); }
+    .blog-date { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); margin-bottom: 16px; font-family: monospace; }
+    .blog-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); line-height: 1.3; margin-bottom: 12px; }
+    .blog-excerpt { font-size: 0.88rem; color: var(--fg2); line-height: 1.65; font-weight: 300; }
+    .blog-read { margin-top: 24px; font-size: 0.8rem; font-weight: 600; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+    .blog-card:hover .blog-read { gap: 10px; }
+
+    /* STATS */
+    .stats-row { display: flex; justify-content: center; gap: 80px; padding: 60px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: var(--font-display); font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; color: var(--fg); line-height: 1; }
+    .stat-num span { color: var(--gold); }
+    .stat-label { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg3); margin-top: 6px; }
+
+    /* FOOTER */
+    footer { padding: 60px 60px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+    .footer-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--fg); }
+    .footer-name span { color: var(--gold); }
+    .footer-copy { font-size: 0.8rem; color: var(--fg3); letter-spacing: 0.04em; }
+    .footer-links { display: flex; gap: 28px; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: var(--fg3); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* BG BLOBS */
+    .bg-blob { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+    .blob-gold { width: 600px; height: 600px; background: rgba(255,106,0,0.05); top: -100px; right: -100px; }
+    .blob-purple { width: 400px; height: 400px; background: rgba(100,60,200,0.06); bottom: 100px; left: -80px; }
+
+    /* KEYFRAMES */
+    @keyframes slideUp { from { transform: translateY(110%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes spinRing { from { transform: rotateX(70deg) rotateZ(0deg); } to { transform: rotateX(70deg) rotateZ(360deg); } }
+    @keyframes scrollPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+    @keyframes fadeInShift { from { opacity: 0; transform: translateY(16px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+
+    /* CONTACT */
+    #contact { padding: 100px 60px; text-align: center; background: var(--bg2); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      #hero { padding: 100px 24px 60px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .globe-wrap { order: -1; }
+      #projects, #blog { padding: 80px 24px; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-template-columns: 1fr; }
+      .project-card.featured .project-thumb { border-right: none; border-bottom: 1px solid var(--border); }
+      .stats-row { gap: 32px; flex-wrap: wrap; padding: 40px 24px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; padding: 40px 24px; }
+      #iss-hud .hud-corner { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="noise"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">S<span>.</span>AD</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ ISS CINEMATIC INTRO ═══ -->
+<div id="iss-scroll-driver">
+  <div id="iss-sticky">
+    <canvas id="iss-canvas"></canvas>
+    <div id="iss-hud">
+      <div class="hud-corner hud-tl">ISS ALTITUDE: 408 KM<br>ORBITAL SPEED: 7.66 KM/S<br>ORBIT: #42817</div>
+      <div class="hud-corner hud-tr">LAT: 28.5° N<br>LON: 80.6° W<br>MAY 02  2026</div>
+      <div class="hud-corner hud-bl">LIVE FEED — CUPOLA<br>CAM: NADIR VIEW</div>
+      <div class="hud-corner hud-br">SHUBHAM A.D.<br>BUILDER</div>
+      <div class="hud-crosshair">
+        <div class="hud-corner-bracket tl"></div>
+        <div class="hud-corner-bracket tr"></div>
+        <div class="hud-corner-bracket bl"></div>
+        <div class="hud-corner-bracket br"></div>
+      </div>
+    </div>
+    <div id="iss-caption">
+      <div class="cap1">International Space Station · Cupola Module</div>
+      <div class="cap2">Earth as seen from 408 km above</div>
+    </div>
+    <div id="iss-scroll-hint">
+      <span>Scroll to descend</span>
+      <div class="iss-scroll-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="bg-blob blob-gold"></div>
+  <div class="bg-blob blob-purple"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-label">Shubham A. D. — Builder</div>
+      <h1 class="hero-title" id="hero-title">
+        <span class="line"><span>Crafting</span></span>
+        <span class="line"><span>Digital <em class="hero-accent">Products</em></span></span>
+        <span class="line"><span>That Matter</span></span>
+      </h1>
+      <p class="hero-sub">Software engineer building tech products, apps and tools that solve real problems — with code, craft, and attention to detail.</p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">See Work</a>
+        <a href="#contact" class="btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+    <div class="globe-wrap">
+      <canvas id="globe-canvas" width="380" height="380"></canvas>
+      <div class="globe-ring"></div>
+      <div class="globe-ring"></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-item reveal"><div class="stat-num">12<span>+</span></div><div class="stat-label">Projects Shipped</div></div>
+  <div class="stat-item reveal reveal-delay-1"><div class="stat-num">5<span>y</span></div><div class="stat-label">Experience</div></div>
+  <div class="stat-item reveal reveal-delay-2"><div class="stat-num">8<span>+</span></div><div class="stat-label">Technologies</div></div>
+  <div class="stat-item reveal reveal-delay-3"><div class="stat-num">∞</div><div class="stat-label">Ideas Building</div></div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="bg-blob blob-gold" style="opacity:0.5;bottom:-200px;top:auto;left:50%;transform:translateX(-50%);"></div>
+  <div class="section-header reveal">
+    <div class="section-label">Selected Work</div>
+    <h2 class="section-title">Projects &amp; <em>Products</em></h2>
+    <p class="section-desc">Tech products, software tools, and websites built from the ground up.</p>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card featured reveal magnetic">
+      <div class="project-thumb"><div class="thumb-stripes"></div><div class="project-thumb-label">product screenshot / demo video</div><div class="project-tag">Featured</div></div>
+      <div class="project-body">
+        <div class="project-num">01 — Featured</div>
+        <div class="project-name">SaaS Dashboard Platform</div>
+        <p class="project-desc">A full-stack analytics platform with real-time data visualization, multi-tenant architecture, and blazing-fast React frontend. Built for scale from day one.</p>
+        <div class="project-footer"><div class="project-stack"><span class="stack-chip">React</span><span class="stack-chip">Node.js</span><span class="stack-chip">PostgreSQL</span><span class="stack-chip">Redis</span></div><div class="project-arrow">→</div></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1 magnetic">
+      <div class="project-thumb"><div class="thumb-stripes"></div><div class="project-thumb-label">app screenshot</div><div class="project-tag">App</div></div>
+      <div class="project-body">
+        <div class="project-num">02</div><div class="project-name">CLI Dev Tool</div>
+        <p class="project-desc">A cross-platform developer utility that automates repetitive setup tasks and scaffolding, saving hours per project.</p>
+        <div class="project-footer"><div class="project-stack"><span class="stack-chip">TypeScript</span><span class="stack-chip">Node.js</span><span class="stack-chip">CLI</span></div><div class="project-arrow">→</div></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2 magnetic">
+      <div class="project-thumb"><div class="thumb-stripes"></div><div class="project-thumb-label">website screenshot</div><div class="project-tag">Web</div></div>
+      <div class="project-body">
+        <div class="project-num">03</div><div class="project-name">E-Commerce Engine</div>
+        <p class="project-desc">A headless commerce solution with custom storefront, checkout optimization, and inventory management built for speed.</p>
+        <div class="project-footer"><div class="project-stack"><span class="stack-chip">Next.js</span><span class="stack-chip">Stripe</span><span class="stack-chip">Prisma</span></div><div class="project-arrow">→</div></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1 magnetic">
+      <div class="project-thumb"><div class="thumb-stripes"></div><div class="project-thumb-label">app interface</div><div class="project-tag">Mobile</div></div>
+      <div class="project-body">
+        <div class="project-num">04</div><div class="project-name">Focus Timer App</div>
+        <p class="project-desc">A minimalist productivity app with deep work sessions, Pomodoro tracking, and sync across devices.</p>
+        <div class="project-footer"><div class="project-stack"><span class="stack-chip">React Native</span><span class="stack-chip">Expo</span></div><div class="project-arrow">→</div></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2 magnetic">
+      <div class="project-thumb"><div class="thumb-stripes"></div><div class="project-thumb-label">tool interface</div><div class="project-tag">Tool</div></div>
+      <div class="project-body">
+        <div class="project-num">05</div><div class="project-name">AI Writing Assistant</div>
+        <p class="project-desc">An LLM-powered writing companion with context memory, custom tone presets, and a distraction-free editor.</p>
+        <div class="project-footer"><div class="project-stack"><span class="stack-chip">Python</span><span class="stack-chip">OpenAI</span><span class="stack-chip">FastAPI</span></div><div class="project-arrow">→</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-header reveal">
+    <div class="section-label">Writing</div>
+    <h2 class="section-title">Blog &amp; <em>Articles</em></h2>
+    <p class="section-desc">Thoughts on building, shipping, and the craft of software.</p>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card reveal"><div class="blog-date">Apr 2026 · 5 min read</div><div class="blog-title">Why Every Developer Should Ship a SaaS in 30 Days</div><p class="blog-excerpt">The constraints of a deadline unlock creativity. Here's what I learned from shipping fast — and what I'd do differently next time.</p><div class="blog-read">Read →</div></div>
+    <div class="blog-card reveal reveal-delay-1"><div class="blog-date">Mar 2026 · 8 min read</div><div class="blog-title">Building CLI Tools That Developers Actually Want to Use</div><p class="blog-excerpt">Great developer tools feel invisible. Designing intuitive CLIs is harder than it looks — here's my framework for getting it right.</p><div class="blog-read">Read →</div></div>
+    <div class="blog-card reveal reveal-delay-2"><div class="blog-date">Feb 2026 · 6 min read</div><div class="blog-title">The Stack I Reach For on Every New Project in 2026</div><p class="blog-excerpt">After years of trying everything, here's the opinionated tech stack I default to — and exactly why each choice was made.</p><div class="blog-read">Read →</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="bg-blob blob-gold" style="opacity:0.4;width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="section-label reveal">Let's Build Together</div>
+    <h2 class="section-title reveal" style="margin-top:12px;">Got a project <em>in mind?</em></h2>
+    <p class="section-desc reveal" style="margin-top:16px;">Whether it's a product idea, a collaboration, or just a conversation — I'm always open to interesting work.</p>
+    <div class="reveal" style="margin-top:40px;"><a href="/cdn-cgi/l/email-protection#523a373e3e3d12213a27303a33367c363724" class="btn-primary" style="font-size:1rem;padding:18px 48px;">Say Hello →</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Shubham A<span>.</span>D</div>
+  <div class="footer-copy">© 2026 — Built with precision</div>
+  <ul class="footer-links"><li><a href="#">GitHub</a></li><li><a href="#">Twitter</a></li><li><a href="#">LinkedIn</a></li></ul>
+</footer>
+
+<!-- Tweaks -->
+<div id="tweaks-root"></div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const { useEffect } = React;
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "#ff6a00",
+  "globeSpeed": 0.4,
+  "cardTilt": true,
+  "particleTrail": true
+}/*EDITMODE-END*/;
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  useEffect(() => { document.documentElement.style.setProperty('--gold', t.accentColor); }, [t.accentColor]);
+  return (
+    <TweaksPanel>
+      <TweakSection label="Theme" />
+      <TweakColor label="Accent Color" value={t.accentColor}
+        onChange={v => { setTweak('accentColor', v); document.documentElement.style.setProperty('--gold', v); }} />
+      <TweakSection label="Globe" />
+      <TweakSlider label="Rotation Speed" value={t.globeSpeed} min={0.1} max={2} step={0.1}
+        onChange={v => { setTweak('globeSpeed', v); window.__globeSpeed = v; }} />
+      <TweakSection label="Effects" />
+      <TweakToggle label="3D Card Tilt" value={t.cardTilt}
+        onChange={v => { setTweak('cardTilt', v); window.__cardTilt = v; }} />
+      <TweakToggle label="Cursor Trail" value={t.particleTrail}
+        onChange={v => { setTweak('particleTrail', v); window.__particleTrail = v; }} />
+    </TweaksPanel>
+  );
+}
+window.__globeSpeed = TWEAK_DEFAULTS["globeSpeed"];
+window.__cardTilt   = TWEAK_DEFAULTS["cardTilt"];
+window.__particleTrail = TWEAK_DEFAULTS["particleTrail"];
+setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />); }, 0);
+</script>
+
+<!-- Globe engine -->
+<script src="globe-engine.js"></script>
+
+<script>
+/* CURSOR */
+(function(){
+  const dot=document.getElementById('cursor-dot');
+  const ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  const TRAIL_LEN=10; const trail=[];
+  for(let i=0;i<TRAIL_LEN;i++){
+    const el=document.createElement('div'); el.className='trail-dot';
+    el.style.opacity=(1-i/TRAIL_LEN)*0.35;
+    el.style.width=el.style.height=(4-i*0.25)+'px';
+    document.body.appendChild(el); trail.push({el,x:0,y:0});
+  }
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+    document.body.classList.add('cursor-loaded');
+  });
+  document.addEventListener('mousedown',()=>{ dot.style.transform='translate(-50%,-50%) scale(0.6)'; ring.style.transform='translate(-50%,-50%) scale(1.3)'; });
+  document.addEventListener('mouseup',()=>{ dot.style.transform='translate(-50%,-50%) scale(1)'; ring.style.transform='translate(-50%,-50%) scale(1)'; });
+  document.querySelectorAll('a,button,.project-card,.blog-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ ring.style.width='56px'; ring.style.height='56px'; ring.style.opacity='1'; });
+    el.addEventListener('mouseleave',()=>{ ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='0.6'; });
+  });
+  let trailPos=Array(TRAIL_LEN).fill({x:0,y:0});
+  function anim(){
+    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    if(window.__particleTrail!==false){
+      trailPos=[{x:mx,y:my},...trailPos.slice(0,TRAIL_LEN-1)];
+      trail.forEach((t,i)=>{ t.x+=(trailPos[i].x-t.x)*0.3; t.y+=(trailPos[i].y-t.y)*0.3; t.el.style.left=t.x+'px'; t.el.style.top=t.y+'px'; t.el.style.display=''; });
+    } else { trail.forEach(t=>{ t.el.style.display='none'; }); }
+    requestAnimationFrame(anim);
+  }
+  anim();
+})();
+
+/* SCROLL REVEAL */
+(function(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+})();
+
+/* NAV scrolled state */
+(function(){
+  const nav=document.getElementById('main-nav');
+  const driver=document.getElementById('iss-scroll-driver');
+  window.addEventListener('scroll',()=>{
+    if(window.scrollY > driver.offsetHeight - 200) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  },{passive:true});
+})();
+
+/* MAGNETIC CARDS */
+(function(){
+  document.querySelectorAll('.magnetic').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      if(window.__cardTilt===false) return;
+      const r=card.getBoundingClientRect();
+      const dx=(e.clientX-r.left-r.width/2)/(r.width/2);
+      const dy=(e.clientY-r.top-r.height/2)/(r.height/2);
+      card.style.transform=`perspective(800px) rotateY(${dx*8}deg) rotateX(${-dy*5}deg) scale(1.02)`;
+      card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+      card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+    });
+    card.addEventListener('mouseleave',()=>{ card.style.transform='perspective(800px) rotateY(0) rotateX(0) scale(1)'; });
+  });
+})();
+
+/* BOOT globe engine */
+window.addEventListener('DOMContentLoaded', function(){
+  window.initISSIntro();
+  window.initHeroGlobe();
+});
+</script>
+</body>
+</html>
