@@ -44,21 +44,20 @@
     #cursor-dot {
       position: fixed; top: 0; left: 0; width: 8px; height: 8px;
       background: var(--gold); border-radius: 50%; pointer-events: none;
-      z-index: 9999; transform: translate(-50%,-50%);
-      transition: transform 0.08s ease;
+      z-index: 9999; will-change: transform;
     }
     #cursor-ring {
       position: fixed; top: 0; left: 0; width: 36px; height: 36px;
       border: 1.5px solid var(--gold); border-radius: 50%; pointer-events: none;
-      z-index: 9998; transform: translate(-50%,-50%);
+      z-index: 9998; will-change: transform;
       transition: width 0.2s, height 0.2s, opacity 0.2s; opacity: 0.6;
     }
     body:not(.cursor-loaded) #cursor-dot,
     body:not(.cursor-loaded) #cursor-ring { opacity: 0; }
     .trail-dot {
-      position: fixed; width: 4px; height: 4px; border-radius: 50%;
+      position: fixed; top: 0; left: 0; width: 4px; height: 4px; border-radius: 50%;
       background: var(--gold); pointer-events: none; z-index: 9990;
-      transform: translate(-50%,-50%);
+      will-change: transform;
     }
     #noise {
       position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.025;
@@ -250,51 +249,6 @@
     .globe-ring:nth-child(2) { width:120%; height:120%; animation: spinRing 14s linear infinite reverse; }
     .globe-ring:nth-child(3) { width:145%; height:145%; animation: spinRing 22s linear infinite; border-style:dashed; opacity:0; }
     #hero.visible .globe-ring:nth-child(3) { opacity: 0.35; }
-
-    /* Hero globe speed slider — minimized at launch, slides in with hero */
-    .globe-speed {
-      position: absolute; bottom: -28px; left: 50%;
-      transform: translateX(-50%) translateY(8px);
-      display: flex; align-items: center; gap: 10px;
-      padding: 6px 14px;
-      background: rgba(20,18,12,0.55);
-      border: 1px solid rgba(255,106,0,0.18);
-      border-radius: 999px;
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.7s ease 0.9s, transform 0.7s ease 0.9s;
-      z-index: 5;
-    }
-    #hero.visible .globe-speed { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-    .globe-speed-label {
-      font-family: var(--font-display); font-size: 0.62rem;
-      letter-spacing: 0.18em; color: var(--gold);
-      font-weight: 600;
-    }
-    .globe-speed-value {
-      font-family: var(--font-display); font-size: 0.7rem;
-      color: rgba(255,255,255,0.7); min-width: 28px; text-align: left;
-      font-variant-numeric: tabular-nums;
-    }
-    #globe-speed-slider {
-      appearance: none; -webkit-appearance: none;
-      width: 90px; height: 3px; border-radius: 999px;
-      background: linear-gradient(to right, var(--gold) 0%, var(--gold) var(--p,15%), rgba(255,255,255,0.15) var(--p,15%));
-      outline: none; cursor: pointer;
-    }
-    #globe-speed-slider::-webkit-slider-thumb {
-      appearance: none; -webkit-appearance: none;
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 0 2px rgba(20,18,12,0.85), 0 0 8px var(--gold-glow);
-      cursor: pointer; border: none;
-    }
-    #globe-speed-slider::-moz-range-thumb {
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--gold); border: none;
-      box-shadow: 0 0 0 2px rgba(20,18,12,0.85);
-    }
-    @media (max-width: 900px) { .globe-speed { bottom: -38px; } }
 
     /* SECTION COMMON */
     section { position: relative; }
@@ -489,12 +443,6 @@
       <canvas id="globe-canvas" width="380" height="380"></canvas>
       <div class="globe-ring"></div>
       <div class="globe-ring"></div>
-      <div class="globe-ring"></div>
-      <div class="globe-speed">
-        <span class="globe-speed-label">SPIN</span>
-        <input type="range" id="globe-speed-slider" min="0.1" max="2.5" step="0.1" value="0.4" />
-        <span class="globe-speed-value" id="globe-speed-value">0.4×</span>
-      </div>
     </div>
   </div>
 </section>
@@ -581,7 +529,7 @@
     <div class="section-label reveal">Let's Build Together</div>
     <h2 class="section-title reveal" style="margin-top:12px;">Got a project <em>in mind?</em></h2>
     <p class="section-desc reveal" style="margin-top:16px;">Whether it's a product idea, a collaboration, or just a conversation — I'm always open to interesting work.</p>
-    <div class="reveal" style="margin-top:40px;"><a href="/cdn-cgi/l/email-protection#c1a9a4adadae81b2a9b4a3a9a0a5efa5a4b7" class="btn-primary" style="font-size:1rem;padding:18px 48px;">Say Hello →</a></div>
+    <div class="reveal" style="margin-top:40px;"><a href="/cdn-cgi/l/email-protection#5038353c3c3f10233825323831347e343526" class="btn-primary" style="font-size:1rem;padding:18px 48px;">Say Hello →</a></div>
   </div>
 </section>
 
@@ -824,25 +772,37 @@ setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).r
     el.style.width=el.style.height=(4-i*0.25)+'px';
     document.body.appendChild(el); trail.push({el,x:0,y:0});
   }
+  let dotPending=false;
   document.addEventListener('mousemove',e=>{
     mx=e.clientX; my=e.clientY;
-    dot.style.left=mx+'px'; dot.style.top=my+'px';
     document.body.classList.add('cursor-loaded');
-  });
-  document.addEventListener('mousedown',()=>{ dot.style.transform='translate(-50%,-50%) scale(0.6)'; ring.style.transform='translate(-50%,-50%) scale(1.3)'; });
-  document.addEventListener('mouseup',()=>{ dot.style.transform='translate(-50%,-50%) scale(1)'; ring.style.transform='translate(-50%,-50%) scale(1)'; });
+    if(!dotPending){
+      dotPending=true;
+      requestAnimationFrame(()=>{
+        dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+        dotPending=false;
+      });
+    }
+  },{passive:true});
+  document.addEventListener('mousedown',()=>{ document.body.classList.add('cursor-pressed'); },{passive:true});
+  document.addEventListener('mouseup',()=>{ document.body.classList.remove('cursor-pressed'); },{passive:true});
   document.querySelectorAll('a,button,.project-card,.blog-card').forEach(el=>{
     el.addEventListener('mouseenter',()=>{ ring.style.width='56px'; ring.style.height='56px'; ring.style.opacity='1'; });
     el.addEventListener('mouseleave',()=>{ ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='0.6'; });
   });
   let trailPos=Array(TRAIL_LEN).fill({x:0,y:0});
   function anim(){
-    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    rx+=(mx-rx)*0.28; ry+=(my-ry)*0.28;
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
     if(window.__particleTrail!==false){
       trailPos=[{x:mx,y:my},...trailPos.slice(0,TRAIL_LEN-1)];
-      trail.forEach((t,i)=>{ t.x+=(trailPos[i].x-t.x)*0.3; t.y+=(trailPos[i].y-t.y)*0.3; t.el.style.left=t.x+'px'; t.el.style.top=t.y+'px'; t.el.style.display=''; });
-    } else { trail.forEach(t=>{ t.el.style.display='none'; }); }
+      for(let i=0;i<TRAIL_LEN;i++){
+        const tp=trail[i], dst=trailPos[i];
+        tp.x+=(dst.x-tp.x)*0.4; tp.y+=(dst.y-tp.y)*0.4;
+        tp.el.style.transform=`translate(${tp.x}px,${tp.y}px) translate(-50%,-50%)`;
+        if(tp.el.style.display==='none') tp.el.style.display='';
+      }
+    } else if(trail[0].el.style.display!=='none'){ trail.forEach(t=>{ t.el.style.display='none'; }); }
     requestAnimationFrame(anim);
   }
   anim();
@@ -886,20 +846,6 @@ setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).r
 window.addEventListener('DOMContentLoaded', function(){
   window.initISSIntro();
   window.initHeroGlobe();
-  // Hero-side globe speed slider
-  const sl=document.getElementById('globe-speed-slider');
-  const vl=document.getElementById('globe-speed-value');
-  if(sl){
-    const sync=()=>{
-      const v=parseFloat(sl.value);
-      window.__globeSpeed=v;
-      if(vl) vl.textContent=v.toFixed(1)+'×';
-      const min=parseFloat(sl.min), max=parseFloat(sl.max);
-      sl.style.setProperty('--p', ((v-min)/(max-min)*100)+'%');
-    };
-    sl.addEventListener('input',sync);
-    sync();
-  }
 });
 </script>
 </body>

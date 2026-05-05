@@ -144,7 +144,25 @@ function drawEarth(ctx, cx, cy, R, rotY, t){
     ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(sx,sy,gr,0,Math.PI*2); ctx.fill();
   });
 
-  /* 6. Clouds removed — dot pattern read as artifact */
+  /* 6. Clouds — warm white, subtle */
+  ctx.save();
+  for(let lat=-75;lat<=75;lat+=4){
+    for(let lon=0;lon<360;lon+=5){
+      const op=cloudOpacity(lon,lat,t);
+      if(op<0.30) continue;
+      const v=lonLatToXYZ(lon,lat,R*1.006,rotY);
+      if(v.z<0) continue;
+      const sx=cx+v.x, sy=cy-v.y;
+      const lf=clamp(v.z/(R*0.8),0,1);
+      const a=op*lf*0.32;
+      const cr=R*0.036+R*0.020*op;
+      const cg=ctx.createRadialGradient(sx,sy,0,sx,sy,cr);
+      cg.addColorStop(0,`rgba(255,245,235,${a})`);
+      cg.addColorStop(1,'rgba(255,240,220,0)');
+      ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(sx,sy,cr,0,Math.PI*2); ctx.fill();
+    }
+  }
+  ctx.restore();
 
   /* 7. Specular glint — warm orange-white on lit face */
   ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
@@ -304,9 +322,9 @@ function drawISS(ctx, x, y, scale, angle, t){
 ══════════════════════════════════════════════════════════ */
 const SAT_DATA=[
   {orbitA:1.22,orbitB:0.32,tiltPhase:0.28, tiltAmp:0.18,speed:0.55,angle:0.5,  size:2.2,type:'comms'},
-  {orbitA:1.15,orbitB:0.28,tiltPhase:1.10, tiltAmp:0.12,speed:0.80,angle:2.1,  size:1.6,type:'comms'},
-  {orbitA:1.28,orbitB:0.35,tiltPhase:-0.6, tiltAmp:0.22,speed:0.38,angle:4.0,  size:1.7,type:'spy'},
-  {orbitA:1.38,orbitB:0.30,tiltPhase:0.80, tiltAmp:0.15,speed:0.62,angle:1.2,  size:1.5,type:'comms'},
+  {orbitA:1.15,orbitB:0.28,tiltPhase:1.10, tiltAmp:0.12,speed:0.80,angle:2.1,  size:1.4,type:'starlink'},
+  {orbitA:1.28,orbitB:0.35,tiltPhase:-0.6, tiltAmp:0.22,speed:0.38,angle:4.0,  size:1.5,type:'starlink'},
+  {orbitA:1.38,orbitB:0.30,tiltPhase:0.80, tiltAmp:0.15,speed:0.62,angle:1.2,  size:1.3,type:'starlink'},
   {orbitA:1.32,orbitB:0.38,tiltPhase:-0.4, tiltAmp:0.20,speed:0.42,angle:3.5,  size:2.0,type:'gps'},
   {orbitA:1.45,orbitB:0.34,tiltPhase:0.55, tiltAmp:0.28,speed:0.30,angle:5.1,  size:2.1,type:'gps'},
   {orbitA:1.50,orbitB:0.40,tiltPhase:0.35, tiltAmp:0.32,speed:0.22,angle:2.7,  size:1.8,type:'gps'},
@@ -566,20 +584,23 @@ window.initISSIntro = function(){
       const wA =clamp((f-0.22)/0.78,0,1);
       const satA=clamp(lerp(1,0,f*2.5),0,1);
 
-      if(eA>0.008){
+      // Higher alpha gate — skip painting heavy Earth once it's nearly invisible
+      if(eA>0.05){
         ctx.save(); ctx.globalAlpha=eA;
         drawEarth(ctx,eX,eY,eR,rotY,t);
         ctx.restore();
       }
-      if(wA>0.008){
+      if(wA>0.02){
         ctx.save(); ctx.globalAlpha=wA;
         drawWireGlobe(ctx,eX,eY,eR,t*(window.__globeSpeed||0.4)*0.004);
         ctx.restore();
       }
-      if(satA>0.01){
+      // Cut sat count in half during morph (they're tiny + fading anyway)
+      if(satA>0.05){
         ctx.save(); ctx.globalAlpha=satA;
         drawISSInOrbit(ctx,W*0.5,H*0.5,fullR,t);
-        const satN=Math.min(SAT_DATA.length, window.__satCount ?? SAT_DATA.length);
+        const satLimit=Math.min(SAT_DATA.length, window.__satCount ?? SAT_DATA.length);
+        const satN=Math.ceil(satLimit*0.5);
         for(let i=0;i<satN;i++) drawSatellite(ctx,W*0.5,H*0.5,fullR,SAT_DATA[i],t);
         ctx.restore();
       }
