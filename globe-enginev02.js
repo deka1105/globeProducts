@@ -322,9 +322,9 @@ function drawISS(ctx, x, y, scale, angle, t){
 ══════════════════════════════════════════════════════════ */
 const SAT_DATA=[
   {orbitA:1.22,orbitB:0.32,tiltPhase:0.28, tiltAmp:0.18,speed:0.55,angle:0.5,  size:2.2,type:'comms'},
-  {orbitA:1.15,orbitB:0.28,tiltPhase:1.10, tiltAmp:0.12,speed:0.80,angle:2.1,  size:1.6,type:'comms'},
-  {orbitA:1.28,orbitB:0.35,tiltPhase:-0.6, tiltAmp:0.22,speed:0.38,angle:4.0,  size:1.7,type:'spy'},
-  {orbitA:1.38,orbitB:0.30,tiltPhase:0.80, tiltAmp:0.15,speed:0.62,angle:1.2,  size:1.5,type:'comms'},
+  {orbitA:1.15,orbitB:0.28,tiltPhase:1.10, tiltAmp:0.12,speed:0.80,angle:2.1,  size:1.4,type:'starlink'},
+  {orbitA:1.28,orbitB:0.35,tiltPhase:-0.6, tiltAmp:0.22,speed:0.38,angle:4.0,  size:1.5,type:'starlink'},
+  {orbitA:1.38,orbitB:0.30,tiltPhase:0.80, tiltAmp:0.15,speed:0.62,angle:1.2,  size:1.3,type:'starlink'},
   {orbitA:1.32,orbitB:0.38,tiltPhase:-0.4, tiltAmp:0.20,speed:0.42,angle:3.5,  size:2.0,type:'gps'},
   {orbitA:1.45,orbitB:0.34,tiltPhase:0.55, tiltAmp:0.28,speed:0.30,angle:5.1,  size:2.1,type:'gps'},
   {orbitA:1.50,orbitB:0.40,tiltPhase:0.35, tiltAmp:0.32,speed:0.22,angle:2.7,  size:1.8,type:'gps'},
@@ -488,11 +488,6 @@ window.initISSIntro = function(){
 
   window.__globeData=buildGlobeData();
   let t=0, heroTriggered=false;
-  let cachedHeroRect=null;
-  // Invalidate cache on scroll/resize — rect only changes then
-  const invalidate=()=>{ if(cachedHeroRect) cachedHeroRect.dirty=true; };
-  window.addEventListener('scroll',invalidate,{passive:true});
-  window.addEventListener('resize',invalidate,{passive:true});
 
   // Phase breakpoints (3.5× scroll)
   const P1=0.45;  // 0→P1: full Earth sphere, ISS + sats
@@ -506,15 +501,10 @@ window.initISSIntro = function(){
   }
 
   function getHeroGlobeRect(){
-    if(!cachedHeroRect || cachedHeroRect.dirty){
-      const hc=document.getElementById('globe-canvas');
-      if(!hc){ cachedHeroRect={cx:W*0.72,cy:H*0.5,r:Math.min(W,H)*0.18,dirty:false}; }
-      else{
-        const rect=hc.getBoundingClientRect();
-        cachedHeroRect={cx:rect.left+rect.width/2,cy:rect.top+rect.height/2,r:rect.width/2,dirty:false};
-      }
-    }
-    return cachedHeroRect;
+    const hc=document.getElementById('globe-canvas');
+    if(!hc) return{cx:W*0.72,cy:H*0.5,r:Math.min(W,H)*0.18};
+    const rect=hc.getBoundingClientRect();
+    return{cx:rect.left+rect.width/2,cy:rect.top+rect.height/2,r:rect.width/2};
   }
 
   function frame(){
