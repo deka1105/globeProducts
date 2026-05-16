@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio JSON Editor — Shubham A.D.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:    #0a0b10;
+    --bg2:   #0f1018;
+    --bg3:   #14151f;
+    --bg4:   #1a1b27;
+    --fg:    oklch(0.95 0.008 80);
+    --fg2:   oklch(0.72 0.01 80);
+    --fg3:   oklch(0.48 0.01 80);
+    --gold:  #ff6a00;
+    --gold-dim: rgba(255,106,0,0.12);
+    --gold-glow: rgba(255,106,0,0.35);
+    --green: #00e896;
+    --red:   #ff4d6a;
+    --border: rgba(255,255,255,0.07);
+    --radius: 12px;
+    --font-d: 'Syne', sans-serif;
+    --font-b: 'DM Sans', sans-serif;
+    --font-m: 'DM Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: var(--font-b); font-size: 15px;
+    line-height: 1.6; min-height: 100vh;
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,106,0,0.3); border-radius: 4px; }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,11,16,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .logo { font-family: var(--font-d); font-weight: 800; font-size: 1rem; letter-spacing: -0.02em; }
+  .logo span { color: var(--gold); }
+  .header-sub { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+
+  /* ── LAYOUT ── */
+  .main { display: grid; grid-template-columns: 260px 1fr 380px; height: calc(100vh - 56px); overflow: hidden; }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    background: var(--bg2); border-right: 1px solid var(--border);
+    overflow-y: auto; padding: 20px 0;
+  }
+  .sidebar-section { padding: 0 16px; margin-bottom: 6px; }
+  .sidebar-label {
+    font-size: 0.63rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--fg3); padding: 10px 8px 6px; font-family: var(--font-m);
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: 8px; cursor: pointer;
+    font-size: 0.85rem; color: var(--fg2); transition: all 0.15s;
+    user-select: none;
+  }
+  .nav-item:hover { background: var(--gold-dim); color: var(--fg); }
+  .nav-item.active { background: var(--gold-dim); color: var(--gold); border-left: 2px solid var(--gold); }
+  .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+  .nav-badge {
+    margin-left: auto; font-size: 0.65rem; font-family: var(--font-m);
+    background: rgba(255,255,255,0.06); border-radius: 4px;
+    padding: 2px 6px; color: var(--fg3);
+  }
+  .nav-item.active .nav-badge { background: rgba(255,106,0,0.2); color: var(--gold); }
+
+  /* ── EDITOR PANE ── */
+  .editor-pane {
+    overflow-y: auto; background: var(--bg);
+    padding: 28px 32px; display: flex; flex-direction: column; gap: 0;
+  }
+  .pane-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .pane-title { font-family: var(--font-d); font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+  .pane-title em { font-style: normal; color: var(--gold); }
+  .pane-desc { font-size: 0.82rem; color: var(--fg3); margin-top: 4px; }
+
+  /* ── FIELD GROUPS ── */
+  .field-group {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 22px; margin-bottom: 16px;
+  }
+  .field-group-label {
+    font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px; font-family: var(--font-m);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .field-group-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,106,0,0.18); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .field-row.full { grid-template-columns: 1fr; }
+  .field-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  label { font-size: 0.75rem; color: var(--fg3); letter-spacing: 0.05em; font-family: var(--font-m); }
+  input[type="text"], input[type="email"], input[type="url"], input[type="number"], textarea, select {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--fg); font-family: var(--font-b);
+    font-size: 0.88rem; padding: 9px 12px; outline: none; resize: vertical;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: rgba(255,106,0,0.5); background: rgba(20,21,31,0.9);
+  }
+  textarea { min-height: 68px; line-height: 1.5; }
+  select option { background: var(--bg3); }
+  input[type="color"] {
+    width: 100%; height: 36px; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--bg3); cursor: pointer; padding: 2px 4px;
+  }
+
+  /* ── ARRAY CARDS ── */
+  .array-list { display: flex; flex-direction: column; gap: 10px; }
+  .array-card {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
+    overflow: hidden;
+  }
+  .array-card-header {
+    display: flex; align-items: center; gap: 10px; padding: 11px 14px;
+    cursor: pointer; user-select: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .array-card.open .array-card-header { border-color: var(--border); }
+  .array-card-num {
+    font-family: var(--font-m); font-size: 0.7rem; color: var(--fg3);
+    background: rgba(255,255,255,0.05); border-radius: 5px;
+    padding: 2px 7px; min-width: 28px; text-align: center;
+  }
+  .array-card-title { flex: 1; font-size: 0.88rem; font-weight: 500; color: var(--fg); }
+  .array-card-title.dim { color: var(--fg3); font-style: italic; }
+  .array-card-chevron { font-size: 0.7rem; color: var(--fg3); transition: transform 0.2s; }
+  .array-card.open .array-card-chevron { transform: rotate(90deg); }
+  .array-card-body { display: none; padding: 16px 14px; }
+  .array-card.open .array-card-body { display: block; }
+  .card-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+
+  /* ── CHIPS / TAGS ── */
+  .chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 3px 8px;
+    font-size: 0.75rem; color: var(--fg2); font-family: var(--font-m);
+  }
+  .chip-del {
+    background: none; border: none; color: var(--fg3); cursor: pointer;
+    font-size: 0.85rem; padding: 0 2px; line-height: 1;
+    transition: color 0.15s;
+  }
+  .chip-del:hover { color: var(--red); }
+  .chip-input {
+    background: none; border: none; outline: none; color: var(--fg);
+    font-size: 0.75rem; font-family: var(--font-m); width: 120px;
+    padding: 3px 6px;
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer;
+    font-family: var(--font-d); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn-gold {
+    background: var(--gold); color: #0a0b10;
+  }
+  .btn-gold:hover { box-shadow: 0 4px 20px var(--gold-glow); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--fg2);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-ghost2 {
+    background: rgba(255,255,255,0.05); color: var(--fg3);
+    border: 1px solid transparent;
+  }
+  .btn-ghost2:hover { background: rgba(255,255,255,0.09); color: var(--fg); }
+  .btn-red {
+    background: rgba(255,77,106,0.1); color: var(--red);
+    border: 1px solid rgba(255,77,106,0.2);
+  }
+  .btn-red:hover { background: rgba(255,77,106,0.2); }
+  .btn-green {
+    background: rgba(0,232,150,0.1); color: var(--green);
+    border: 1px solid rgba(0,232,150,0.2);
+  }
+  .btn-green:hover { background: rgba(0,232,150,0.2); }
+  .btn-sm { padding: 5px 10px; font-size: 0.7rem; }
+  .btn-add {
+    width: 100%; padding: 9px; border-radius: 8px; border: 1px dashed rgba(255,106,0,0.25);
+    background: transparent; color: var(--gold); cursor: pointer; font-size: 0.82rem;
+    font-family: var(--font-d); font-weight: 600; letter-spacing: 0.06em;
+    transition: all 0.2s; margin-top: 8px;
+  }
+  .btn-add:hover { background: var(--gold-dim); border-color: rgba(255,106,0,0.5); }
+
+  /* ── PREVIEW PANE ── */
+  .preview-pane {
+    background: var(--bg2); border-left: 1px solid var(--border);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .preview-header {
+    padding: 14px 18px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .preview-title { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); font-family: var(--font-m); }
+  .preview-status {
+    font-size: 0.68rem; font-family: var(--font-m); display: flex; align-items: center; gap: 5px;
+  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-dot.ok { background: var(--green); }
+  .status-dot.err { background: var(--red); }
+  .preview-code {
+    flex: 1; overflow-y: auto; padding: 16px;
+  }
+  pre {
+    font-family: var(--font-m); font-size: 0.75rem; line-height: 1.7;
+    color: var(--fg2); white-space: pre-wrap; word-break: break-word;
+  }
+  /* Syntax coloring */
+  pre .k { color: var(--fg3); }       /* keys */
+  pre .s { color: oklch(0.88 0.06 80); } /* string values */
+  pre .n { color: #7ec8e3; }           /* numbers */
+  pre .b { color: #b48ead; }           /* booleans */
+  pre .p { color: var(--fg3); }       /* punctuation */
+
+  .preview-actions {
+    padding: 14px 18px; border-top: 1px solid var(--border); flex-shrink: 0;
+    display: flex; gap: 8px;
+  }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-zone {
+    border: 1px dashed rgba(255,106,0,0.3); border-radius: var(--radius);
+    padding: 24px; text-align: center; cursor: pointer;
+    transition: all 0.25s; background: var(--bg2); margin-bottom: 20px;
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--gold); background: var(--gold-dim);
+  }
+  .upload-zone p { font-size: 0.85rem; color: var(--fg3); }
+  .upload-zone strong { color: var(--gold); }
+  input[type="file"] { display: none; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--bg4); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 20px;
+    font-size: 0.83rem; font-family: var(--font-m);
+    display: flex; align-items: center; gap: 8px;
+    z-index: 9999; opacity: 0; transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.ok { border-color: rgba(0,232,150,0.3); }
+  .toast.ok .toast-icon { color: var(--green); }
+  .toast.err { border-color: rgba(255,77,106,0.3); }
+  .toast.err .toast-icon { color: var(--red); }
+
+  /* ── EMPTY NOTICE ── */
+  .empty { text-align: center; padding: 32px 16px; color: var(--fg3); font-size: 0.85rem; }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">S<span>.</span>AD — Portfolio Editor</div>
+    <div class="header-sub">JSON Content Manager</div>
+  </div>
+  <div class="header-actions">
+    <label class="btn btn-outline" for="json-upload-hidden" style="cursor:pointer;">⬆ Import JSON</label>
+    <input type="file" id="json-upload-hidden" accept=".json" />
+    <button class="btn btn-gold" id="btn-export">⬇ Export JSON</button>
+  </div>
+</header>
+
+<div class="main">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Sections</div>
+      <div class="nav-item active" data-section="identity">
+        <span class="nav-icon">👤</span> Identity
+      </div>
+      <div class="nav-item" data-section="nav">
+        <span class="nav-icon">🔗</span> Navigation
+      </div>
+      <div class="nav-item" data-section="hero">
+        <span class="nav-icon">🚀</span> Hero
+      </div>
+      <div class="nav-item" data-section="stats">
+        <span class="nav-icon">📊</span> Stats
+        <span class="nav-badge" id="badge-stats">4</span>
+      </div>
+      <div class="nav-item" data-section="projects">
+        <span class="nav-icon">🛠</span> Projects
+        <span class="nav-badge" id="badge-projects">5</span>
+      </div>
+      <div class="nav-item" data-section="blog">
+        <span class="nav-icon">✍️</span> Blog
+        <span class="nav-badge" id="badge-blog">3</span>
+      </div>
+      <div class="nav-item" data-section="contact">
+        <span class="nav-icon">📬</span> Contact
+      </div>
+      <div class="nav-item" data-section="footer">
+        <span class="nav-icon">🔻</span> Footer
+      </div>
+      <div class="nav-item" data-section="tweaks">
+        <span class="nav-icon">⚙️</span> Tweaks
+      </div>
+    </div>
+    <div class="sidebar-section" style="margin-top:16px;">
+      <div class="sidebar-label">Tools</div>
+      <div class="nav-item" data-section="raw">
+        <span class="nav-icon">📝</span> Raw JSON
+      </div>
+    </div>
+  </nav>
+
+  <!-- EDITOR -->
+  <div class="editor-pane" id="editor-pane">
+    <!-- dynamically rendered -->
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-pane">
+    <div class="preview-header">
+      <span class="preview-title">Live JSON Preview</span>
+      <span class="preview-status">
+        <span class="status-dot ok" id="status-dot"></span>
+        <span id="status-text" style="color:var(--fg3);">Valid</span>
+      </span>
+    </div>
+    <div class="preview-code" id="json-preview"></div>
+    <div class="preview-actions">
+      <button class="btn btn-outline btn-sm" id="btn-copy-preview">Copy</button>
+      <button class="btn btn-ghost2 btn-sm" id="btn-minify">Minify</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toast-msg"></span></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA MODEL
+// ═══════════════════════════════════════════════════════
+let data = {
+  identity: {
+    name: "Shubham A. D.",
+    shortName: "S.AD",
+    role: "Builder",
+    tagline: "Builder",
+    accentColor: "#ff6a00"
+  },
+  nav: {
+    links: [
+      { label: "Home", href: "#hero" },
+      { label: "Work", href: "#projects" },
+      { label: "Blog", href: "#blog" },
+      { label: "Contact", href: "#contact" }
+    ]
+  },
+  hero: {
+    label: "Shubham A. D. — Builder",
+    title: ["Crafting", "Digital Products", "That Matter"],
+    titleAccent: "Products",
+    subtitle: "Software engineer building tech products, apps and tools that solve real problems — with code, craft, and attention to detail.",
+    ctaPrimary: { text: "See Work", href: "#projects" },
+    ctaSecondary: { text: "Get in Touch", href: "#contact" },
+    hud: {
+      altitude: "408 KM",
+      orbitalSpeed: "7.66 KM/S",
+      orbit: "#42817",
+      lat: "28.5° N",
+      lon: "80.6° W",
+      date: "MAY 02  2026",
+      corner: "SHUBHAM A.D.\nBUILDER"
+    }
+  },
+  stats: [
+    { number: "12", suffix: "+", label: "Projects Shipped" },
+    { number: "5", suffix: "y", label: "Experience" },
+    { number: "8", suffix: "+", label: "Technologies" },
+    { number: "∞", suffix: "", label: "Ideas Building" }
+  ],
+  projects: [
+    {
+      num: "01 — Featured",
+      name: "SaaS Dashboard Platform",
+      tag: "Featured",
+      featured: true,
+      thumbLabel: "product screenshot / demo video",
+      desc: "A full-stack analytics platform with real-time data visualization, multi-tenant architecture, and blazing-fast React frontend. Built for scale from day one.",
+      stack: ["React", "Node.js", "PostgreSQL", "Redis"],
+      link: "#"
+    },
+    {
+      num: "02",
+      name: "CLI Dev Tool",
+      tag: "App",
+      featured: false,
+      thumbLabel: "app screenshot",
+      desc: "A cross-platform developer utility that automates repetitive setup tasks and scaffolding, saving hours per project.",
+      stack: ["TypeScript", "Node.js", "CLI"],
+      link: "#"
+    },
+    {
+      num: "03",
+      name: "E-Commerce Engine",
+      tag: "Web",
+      featured: false,
+      thumbLabel: "website screenshot",
+      desc: "A headless commerce solution with custom storefront, checkout optimization, and inventory management built for speed.",
+      stack: ["Next.js", "Stripe", "Prisma"],
+      link: "#"
+    },
+    {
+      num: "04",
+      name: "Focus Timer App",
+      tag: "Mobile",
+      featured: false,
+      thumbLabel: "app interface",
+      desc: "A minimalist productivity app with deep work sessions, Pomodoro tracking, and sync across devices.",
+      stack: ["React Native", "Expo"],
+      link: "#"
+    },
+    {
+      num: "05",
+      name: "AI Writing Assistant",
+      tag: "Tool",
+      featured: false,
+      thumbLabel: "tool interface",
+      desc: "An LLM-powered writing companion with context memory, custom tone presets, and a distraction-free editor.",
+      stack: ["Python", "OpenAI", "FastAPI"],
+      link: "#"
+    }
+  ],
+  blog: [
+    {
+      date: "Apr 2026",
+      readTime: "5 min read",
+      title: "Why Every Developer Should Ship a SaaS in 30 Days",
+      excerpt: "The constraints of a deadline unlock creativity. Here's what I learned from shipping fast — and what I'd do differently next time.",
+      link: "#"
+    },
+    {
+      date: "Mar 2026",
+      readTime: "8 min read",
+      title: "Building CLI Tools That Developers Actually Want to Use",
+      excerpt: "Great developer tools feel invisible. Designing intuitive CLIs is harder than it looks — here's my framework for getting it right.",
+      link: "#"
+    },
+    {
+      date: "Feb 2026",
+      readTime: "6 min read",
+      title: "The Stack I Reach For on Every New Project in 2026",
+      excerpt: "After years of trying everything, here's the opinionated tech stack I default to — and exactly why each choice was made.",
+      link: "#"
+    }
+  ],
+  contact: {
+    sectionLabel: "Let's Build Together",
+    title: "Got a project in mind?",
+    titleAccent: "in mind?",
+    desc: "Whether it's a product idea, a collaboration, or just a conversation — I'm always open to interesting work.",
+    ctaText: "Say Hello →",
+    email: ""
+  },
+  footer: {
+    name: "Shubham A.D",
+    copy: "© 2026 — Built with precision",
+    links: [
+      { label: "GitHub", href: "#" },
+      { label: "Twitter", href: "#" },
+      { label: "LinkedIn", href: "#" }
+    ]
+  },
+  tweaks: {
+    accentColor: "#ff6a00",
+    globeSpeed: 0.4,
+    cardTilt: true,
+    particleTrail: true,
+    scrollLength: 250,
+    frameRate: 60,
+    pixelCap: 1.5,
+    satCount: 13,
+    starCount: 450,
+    nebula: true
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let currentSection = 'identity';
+let previewMinified = false;
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function render() {
+  updateNav();
+  renderSection(currentSection);
+  renderPreview();
+}
+
+function updateNav() {
+  document.querySelectorAll('.nav-item[data-section]').forEach(el => {
+    el.classList.toggle('active', el.dataset.section === currentSection);
+  });
+  document.getElementById('badge-stats').textContent = data.stats.length;
+  document.getElementById('badge-projects').textContent = data.projects.length;
+  document.getElementById('badge-blog').textContent = data.blog.length;
+}
+
+function renderSection(sec) {
+  const pane = document.getElementById('editor-pane');
+  const builders = { identity, nav: navSec, hero, stats, projects, blog, contact, footer, tweaks, raw };
+  pane.innerHTML = builders[sec]();
+  bindEvents(sec);
+}
+
+// ── IDENTITY ──
+function identity() {
+  const d = data.identity;
+  return `
+  <div class="pane-header">
+    <div><div class="pane-title">Identity <em>&amp;</em> Branding</div>
+    <div class="pane-desc">Your name, display handles, role, and accent colour.</div></div>
+  </div>
+  <div class="field-group">
+    <div class="field-group-label">Name &amp; Handle</div>
+    <div class="field-row">
+      <div class="field"><label>Full Name</label><input type="text" data-path="identity.name" value="${esc(d.name)}" /></div>
+      <div class="field"><label>Short Handle (nav logo)</label><input type="text" data-path="identity.shortName" value="${esc(d.shortName)}" /></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Role / Subtitle</label><input type="text" data-path="identity.role" value="${esc(d.role)}" /></div>
+      <div class="field"><label>Tagline</label><input type="text" data-path="identity.tagline" value="${esc(d.tagline)}" /></div>
+    </div>
+  </div>
+  <div class="field-group">
+    <div class="field-group-label">Theme</div>
+    <div class="field-row">
+      <div class="field"><label>Accent Color (--gold)</label><input type="color" data-path="identity.accentColor" value="${esc(d.accentColor)}" /></div>
+    </div>
+  </div>`;
+}
+
+// ── NAV ──
+function navSec() {
+  const links = data.nav.links;
+  const items = links.map((l, i) => `
+    <div class="array-card open" data-index="${i}">
+      <div class="array-card-header">
+        <span class="array-card-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="array-card-title">${esc(l.label || 'Untitled')}</span>
+        <span class="array-card-chevron">▶</span>
+      </div>
+      <div class="array-card-body">
+        <div class="field-row">
+          <div class="field"><label>Label</label><input type="text" data-arr="nav.links" data-i="${i}" data-key="label" value="${esc(l.label)}" /></div>
+          <div class="field"><label>Href</label><input type="text" data-arr="nav.links" data-i="${i}" data-key="href" value="${esc(l.href)}" /></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-red btn-sm" data-remove="nav.links" data-i="${i}">Remove</button>
+        </div>
+      </div>
+    </div>`).join('');
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Navigation <em>Links</em></div>
+    <div class="pane-desc">Edit the nav bar links.</div>
+  </div></div>
+  <div class="array-list">${items}</div>
+  <button class="btn-add" data-add="nav.links">+ Add Link</button>`;
+}
+
+// ── HERO ──
+function hero() {
+  const h = data.hero;
+  const hud = h.hud;
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Hero <em>Section</em></div>
+    <div class="pane-desc">The main landing section.</div>
+  </div></div>
+  <div class="field-group">
+    <div class="field-group-label">Text Content</div>
+    <div class="field-row full"><div class="field"><label>Label (above title)</label><input type="text" data-path="hero.label" value="${esc(h.label)}" /></div></div>
+    <div class="field-row">
+      <div class="field"><label>Title Line 1</label><input type="text" data-path="hero.title.0" value="${esc(h.title[0])}" /></div>
+      <div class="field"><label>Title Line 2</label><input type="text" data-path="hero.title.1" value="${esc(h.title[1])}" /></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Title Line 3</label><input type="text" data-path="hero.title.2" value="${esc(h.title[2])}" /></div>
+      <div class="field"><label>Accent Word (in line 2)</label><input type="text" data-path="hero.titleAccent" value="${esc(h.titleAccent)}" /></div>
+    </div>
+    <div class="field-row full"><div class="field"><label>Subtitle / Bio</label><textarea data-path="hero.subtitle">${esc(h.subtitle)}</textarea></div></div>
+  </div>
+  <div class="field-group">
+    <div class="field-group-label">CTAs</div>
+    <div class="field-row">
+      <div class="field"><label>Primary CTA Text</label><input type="text" data-path="hero.ctaPrimary.text" value="${esc(h.ctaPrimary.text)}" /></div>
+      <div class="field"><label>Primary CTA Href</label><input type="text" data-path="hero.ctaPrimary.href" value="${esc(h.ctaPrimary.href)}" /></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Secondary CTA Text</label><input type="text" data-path="hero.ctaSecondary.text" value="${esc(h.ctaSecondary.text)}" /></div>
+      <div class="field"><label>Secondary CTA Href</label><input type="text" data-path="hero.ctaSecondary.href" value="${esc(h.ctaSecondary.href)}" /></div>
+    </div>
+  </div>
+  <div class="field-group">
+    <div class="field-group-label">ISS HUD Overlay</div>
+    <div class="field-row triple">
+      <div class="field"><label>Altitude</label><input type="text" data-path="hero.hud.altitude" value="${esc(hud.altitude)}" /></div>
+      <div class="field"><label>Orbital Speed</label><input type="text" data-path="hero.hud.orbitalSpeed" value="${esc(hud.orbitalSpeed)}" /></div>
+      <div class="field"><label>Orbit #</label><input type="text" data-path="hero.hud.orbit" value="${esc(hud.orbit)}" /></div>
+    </div>
+    <div class="field-row triple">
+      <div class="field"><label>Latitude</label><input type="text" data-path="hero.hud.lat" value="${esc(hud.lat)}" /></div>
+      <div class="field"><label>Longitude</label><input type="text" data-path="hero.hud.lon" value="${esc(hud.lon)}" /></div>
+      <div class="field"><label>Date</label><input type="text" data-path="hero.hud.date" value="${esc(hud.date)}" /></div>
+    </div>
+    <div class="field-row full"><div class="field"><label>Bottom-right Corner Text</label><textarea data-path="hero.hud.corner">${esc(hud.corner)}</textarea></div></div>
+  </div>`;
+}
+
+// ── STATS ──
+function stats() {
+  const items = data.stats.map((s, i) => `
+    <div class="array-card open" data-index="${i}">
+      <div class="array-card-header">
+        <span class="array-card-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="array-card-title">${esc(s.number)}${esc(s.suffix)} ${esc(s.label)}</span>
+        <span class="array-card-chevron">▶</span>
+      </div>
+      <div class="array-card-body">
+        <div class="field-row triple">
+          <div class="field"><label>Number</label><input type="text" data-arr="stats" data-i="${i}" data-key="number" value="${esc(s.number)}" /></div>
+          <div class="field"><label>Suffix</label><input type="text" data-arr="stats" data-i="${i}" data-key="suffix" value="${esc(s.suffix)}" /></div>
+          <div class="field"><label>Label</label><input type="text" data-arr="stats" data-i="${i}" data-key="label" value="${esc(s.label)}" /></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-red btn-sm" data-remove="stats" data-i="${i}">Remove</button>
+        </div>
+      </div>
+    </div>`).join('');
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Stats <em>Row</em></div>
+    <div class="pane-desc">The numbers shown below the hero section.</div>
+  </div></div>
+  <div class="array-list">${items}</div>
+  <button class="btn-add" data-add="stats">+ Add Stat</button>`;
+}
+
+// ── PROJECTS ──
+function projects() {
+  const items = data.projects.map((p, i) => `
+    <div class="array-card" data-index="${i}">
+      <div class="array-card-header">
+        <span class="array-card-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="array-card-title ${p.name ? '' : 'dim'}">${esc(p.name || 'Untitled Project')}</span>
+        <span class="array-card-chevron">▶</span>
+      </div>
+      <div class="array-card-body">
+        <div class="field-row">
+          <div class="field"><label>Project Name</label><input type="text" data-arr="projects" data-i="${i}" data-key="name" value="${esc(p.name)}" /></div>
+          <div class="field"><label>Tag (Featured / App / Web…)</label><input type="text" data-arr="projects" data-i="${i}" data-key="tag" value="${esc(p.tag)}" /></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Number Label</label><input type="text" data-arr="projects" data-i="${i}" data-key="num" value="${esc(p.num)}" /></div>
+          <div class="field"><label>Thumbnail Caption</label><input type="text" data-arr="projects" data-i="${i}" data-key="thumbLabel" value="${esc(p.thumbLabel)}" /></div>
+        </div>
+        <div class="field-row full"><div class="field"><label>Description</label><textarea data-arr="projects" data-i="${i}" data-key="desc">${esc(p.desc)}</textarea></div></div>
+        <div class="field-row">
+          <div class="field"><label>Link / URL</label><input type="text" data-arr="projects" data-i="${i}" data-key="link" value="${esc(p.link)}" /></div>
+          <div class="field"><label>Featured (spans full width)</label>
+            <select data-arr="projects" data-i="${i}" data-key="featured" data-bool="1">
+              <option value="true" ${p.featured ? 'selected' : ''}>Yes</option>
+              <option value="false" ${!p.featured ? 'selected' : ''}>No</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Stack (press Enter to add)</label>
+          <div class="chips-wrap" data-chips="projects.${i}.stack">
+            ${(p.stack||[]).map((s,j)=>`<span class="chip">${esc(s)}<button class="chip-del" data-chip-del="projects.${i}.stack" data-j="${j}">×</button></span>`).join('')}
+            <input class="chip-input" placeholder="e.g. React" data-chip-add="projects.${i}.stack" />
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-red btn-sm" data-remove="projects" data-i="${i}">Remove</button>
+        </div>
+      </div>
+    </div>`).join('');
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Projects <em>&amp; Products</em></div>
+    <div class="pane-desc">Click a card to expand and edit it.</div>
+  </div></div>
+  <div class="array-list">${items}</div>
+  <button class="btn-add" data-add="projects">+ Add Project</button>`;
+}
+
+// ── BLOG ──
+function blog() {
+  const items = data.blog.map((b, i) => `
+    <div class="array-card" data-index="${i}">
+      <div class="array-card-header">
+        <span class="array-card-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="array-card-title ${b.title ? '' : 'dim'}">${esc(b.title || 'Untitled Post')}</span>
+        <span class="array-card-chevron">▶</span>
+      </div>
+      <div class="array-card-body">
+        <div class="field-row">
+          <div class="field"><label>Date</label><input type="text" data-arr="blog" data-i="${i}" data-key="date" value="${esc(b.date)}" /></div>
+          <div class="field"><label>Read Time</label><input type="text" data-arr="blog" data-i="${i}" data-key="readTime" value="${esc(b.readTime)}" /></div>
+        </div>
+        <div class="field-row full"><div class="field"><label>Title</label><input type="text" data-arr="blog" data-i="${i}" data-key="title" value="${esc(b.title)}" /></div></div>
+        <div class="field-row full"><div class="field"><label>Excerpt</label><textarea data-arr="blog" data-i="${i}" data-key="excerpt">${esc(b.excerpt)}</textarea></div></div>
+        <div class="field-row full"><div class="field"><label>Link</label><input type="text" data-arr="blog" data-i="${i}" data-key="link" value="${esc(b.link)}" /></div></div>
+        <div class="card-actions">
+          <button class="btn btn-red btn-sm" data-remove="blog" data-i="${i}">Remove</button>
+        </div>
+      </div>
+    </div>`).join('');
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Blog <em>&amp; Articles</em></div>
+    <div class="pane-desc">Writing section cards.</div>
+  </div></div>
+  <div class="array-list">${items}</div>
+  <button class="btn-add" data-add="blog">+ Add Post</button>`;
+}
+
+// ── CONTACT ──
+function contact() {
+  const c = data.contact;
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Contact <em>Section</em></div>
+  </div></div>
+  <div class="field-group">
+    <div class="field-group-label">Copy</div>
+    <div class="field-row full"><div class="field"><label>Section Label (small text above)</label><input type="text" data-path="contact.sectionLabel" value="${esc(c.sectionLabel)}" /></div></div>
+    <div class="field-row full"><div class="field"><label>Heading</label><input type="text" data-path="contact.title" value="${esc(c.title)}" /></div></div>
+    <div class="field-row full"><div class="field"><label>Accent Phrase (part of heading that turns orange)</label><input type="text" data-path="contact.titleAccent" value="${esc(c.titleAccent)}" /></div></div>
+    <div class="field-row full"><div class="field"><label>Body Text</label><textarea data-path="contact.desc">${esc(c.desc)}</textarea></div></div>
+    <div class="field-row">
+      <div class="field"><label>CTA Button Text</label><input type="text" data-path="contact.ctaText" value="${esc(c.ctaText)}" /></div>
+      <div class="field"><label>Email Address</label><input type="email" data-path="contact.email" value="${esc(c.email)}" /></div>
+    </div>
+  </div>`;
+}
+
+// ── FOOTER ──
+function footer() {
+  const f = data.footer;
+  const links = f.links || [];
+  const linkItems = links.map((l, i) => `
+    <div class="array-card open">
+      <div class="array-card-header">
+        <span class="array-card-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="array-card-title">${esc(l.label)}</span>
+        <span class="array-card-chevron">▶</span>
+      </div>
+      <div class="array-card-body">
+        <div class="field-row">
+          <div class="field"><label>Label</label><input type="text" data-arr="footer.links" data-i="${i}" data-key="label" value="${esc(l.label)}" /></div>
+          <div class="field"><label>Href</label><input type="text" data-arr="footer.links" data-i="${i}" data-key="href" value="${esc(l.href)}" /></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-red btn-sm" data-remove="footer.links" data-i="${i}">Remove</button>
+        </div>
+      </div>
+    </div>`).join('');
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Footer</div>
+  </div></div>
+  <div class="field-group">
+    <div class="field-group-label">Branding</div>
+    <div class="field-row">
+      <div class="field"><label>Footer Name</label><input type="text" data-path="footer.name" value="${esc(f.name)}" /></div>
+      <div class="field"><label>Copyright Text</label><input type="text" data-path="footer.copy" value="${esc(f.copy)}" /></div>
+    </div>
+  </div>
+  <div class="field-group">
+    <div class="field-group-label">Footer Links</div>
+    <div class="array-list">${linkItems}</div>
+    <button class="btn-add" data-add="footer.links">+ Add Link</button>
+  </div>`;
+}
+
+// ── TWEAKS ──
+function tweaks() {
+  const t = data.tweaks;
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Scene <em>Tweaks</em></div>
+    <div class="pane-desc">Globe engine and visual settings (maps to TWEAK_DEFAULTS).</div>
+  </div></div>
+  <div class="field-group">
+    <div class="field-group-label">Theme</div>
+    <div class="field-row">
+      <div class="field"><label>Accent Color</label><input type="color" data-path="tweaks.accentColor" value="${esc(t.accentColor)}" /></div>
+      <div class="field"><label>Globe Spin Speed (0.1–2)</label><input type="number" min="0.1" max="2" step="0.1" data-path="tweaks.globeSpeed" value="${t.globeSpeed}" /></div>
+    </div>
+  </div>
+  <div class="field-group">
+    <div class="field-group-label">Performance</div>
+    <div class="field-row triple">
+      <div class="field"><label>Scroll Length (vh)</label><input type="number" min="120" max="400" step="10" data-path="tweaks.scrollLength" value="${t.scrollLength}" /></div>
+      <div class="field"><label>Frame Rate Cap</label><input type="number" min="20" max="60" step="10" data-path="tweaks.frameRate" value="${t.frameRate}" /></div>
+      <div class="field"><label>Pixel Cap</label><input type="number" min="1" max="2" step="0.25" data-path="tweaks.pixelCap" value="${t.pixelCap}" /></div>
+    </div>
+  </div>
+  <div class="field-group">
+    <div class="field-group-label">Scene Density</div>
+    <div class="field-row triple">
+      <div class="field"><label>Satellites (0–13)</label><input type="number" min="0" max="13" step="1" data-path="tweaks.satCount" value="${t.satCount}" /></div>
+      <div class="field"><label>Stars (50–700)</label><input type="number" min="50" max="700" step="50" data-path="tweaks.starCount" value="${t.starCount}" /></div>
+      <div class="field"><label>Nebula Glow</label>
+        <select data-path="tweaks.nebula" data-bool="1">
+          <option value="true" ${t.nebula ? 'selected' : ''}>On</option>
+          <option value="false" ${!t.nebula ? 'selected' : ''}>Off</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>3D Card Tilt</label>
+        <select data-path="tweaks.cardTilt" data-bool="1">
+          <option value="true" ${t.cardTilt ? 'selected' : ''}>On</option>
+          <option value="false" ${!t.cardTilt ? 'selected' : ''}>Off</option>
+        </select>
+      </div>
+      <div class="field"><label>Cursor Trail</label>
+        <select data-path="tweaks.particleTrail" data-bool="1">
+          <option value="true" ${t.particleTrail ? 'selected' : ''}>On</option>
+          <option value="false" ${!t.particleTrail ? 'selected' : ''}>Off</option>
+        </select>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── RAW ──
+function raw() {
+  const json = JSON.stringify(data, null, 2);
+  return `
+  <div class="pane-header"><div>
+    <div class="pane-title">Raw <em>JSON</em></div>
+    <div class="pane-desc">Paste or edit JSON directly. Click Apply to update all fields.</div>
+  </div></div>
+  <textarea id="raw-editor" style="font-family:var(--font-m);font-size:0.75rem;line-height:1.7;height:calc(100vh - 200px);background:var(--bg2);border-color:rgba(255,106,0,0.2);">${esc(json)}</textarea>
+  <div style="margin-top:12px;display:flex;gap:10px;">
+    <button class="btn btn-gold" id="btn-apply-raw">Apply JSON</button>
+    <button class="btn btn-outline" id="btn-format-raw">Format</button>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// BIND EVENTS (delegated per-render)
+// ═══════════════════════════════════════════════════════
+function bindEvents(sec) {
+  const pane = document.getElementById('editor-pane');
+
+  // path inputs
+  pane.querySelectorAll('[data-path]').forEach(el => {
+    el.addEventListener('input', () => {
+      setPath(data, el.dataset.path, el.dataset.bool ? el.value === 'true' : el.value);
+      renderPreview();
+    });
+  });
+
+  // array item fields
+  pane.querySelectorAll('[data-arr]').forEach(el => {
+    el.addEventListener('input', () => {
+      const parts = el.dataset.arr.split('.');
+      const arr = getNestedArr(data, parts);
+      const i = +el.dataset.i;
+      const key = el.dataset.key;
+      arr[i][key] = el.dataset.bool ? el.value === 'true' : el.value;
+      renderPreview();
+    });
+  });
+
+  // remove buttons
+  pane.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const parts = btn.dataset.remove.split('.');
+      const arr = getNestedArr(data, parts);
+      arr.splice(+btn.dataset.i, 1);
+      render();
+    });
+  });
+
+  // add buttons
+  pane.querySelectorAll('[data-add]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const parts = btn.dataset.add.split('.');
+      const arr = getNestedArr(data, parts);
+      arr.push(defaultItem(btn.dataset.add));
+      render();
+    });
+  });
+
+  // accordion
+  pane.querySelectorAll('.array-card-header').forEach(h => {
+    h.addEventListener('click', () => {
+      const card = h.closest('.array-card');
+      card.classList.toggle('open');
+    });
+  });
+
+  // chip delete
+  pane.querySelectorAll('[data-chip-del]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const [s, i, key] = btn.dataset.chipDel.split('.');
+      data[s][+i][key].splice(+btn.dataset.j, 1);
+      render();
+    });
+  });
+
+  // chip add on Enter
+  pane.querySelectorAll('[data-chip-add]').forEach(inp => {
+    inp.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const val = inp.value.trim();
+      if (!val) return;
+      const [s, i, key] = inp.dataset.chipAdd.split('.');
+      if (!data[s][+i][key]) data[s][+i][key] = [];
+      data[s][+i][key].push(val);
+      render();
+    });
+  });
+
+  // raw editor
+  if (sec === 'raw') {
+    document.getElementById('btn-apply-raw')?.addEventListener('click', () => {
+      try {
+        data = JSON.parse(document.getElementById('raw-editor').value);
+        render();
+        toast('JSON applied successfully', 'ok');
+      } catch(e) {
+        toast('Invalid JSON: ' + e.message, 'err');
+      }
+    });
+    document.getElementById('btn-format-raw')?.addEventListener('click', () => {
+      try {
+        const el = document.getElementById('raw-editor');
+        el.value = JSON.stringify(JSON.parse(el.value), null, 2);
+      } catch(e) { toast('Invalid JSON', 'err'); }
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// PREVIEW
+// ═══════════════════════════════════════════════════════
+function renderPreview() {
+  const json = previewMinified ? JSON.stringify(data) : JSON.stringify(data, null, 2);
+  document.getElementById('json-preview').innerHTML = '<pre>' + syntaxHL(esc(json)) + '</pre>';
+  document.getElementById('status-dot').className = 'status-dot ok';
+  document.getElementById('status-text').textContent = 'Valid · ' + json.length + ' chars';
+}
+
+function syntaxHL(str) {
+  return str
+    .replace(/(&quot;)([^&]+?)(&quot;)\s*:/g, '<span class="k">$1$2$3</span>:')
+    .replace(/:\s*(&quot;)([^&]*?)(&quot;)/g, ': <span class="s">$1$2$3</span>')
+    .replace(/:\s*(-?\d+(\.\d+)?)/g, ': <span class="n">$1</span>')
+    .replace(/:\s*(true|false)/g, ': <span class="b">$1</span>');
+}
+
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+function esc(str) {
+  if (str === undefined || str === null) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function setPath(obj, path, val) {
+  const parts = path.split('.');
+  let cur = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    const p = parts[i];
+    const isNum = /^\d+$/.test(parts[i+1]);
+    if (cur[p] === undefined) cur[p] = isNum ? [] : {};
+    cur = cur[p];
+  }
+  cur[parts[parts.length-1]] = val;
+}
+
+function getNestedArr(obj, parts) {
+  return parts.reduce((acc, p) => acc[p], obj);
+}
+
+function defaultItem(arr) {
+  const defaults = {
+    'nav.links': { label: 'New Link', href: '#' },
+    'stats': { number: '0', suffix: '+', label: 'New Stat' },
+    'projects': { num: String(data.projects.length+1).padStart(2,'0'), name: 'New Project', tag: 'Web', featured: false, thumbLabel: 'screenshot', desc: '', stack: [], link: '#' },
+    'blog': { date: 'Jan 2026', readTime: '5 min read', title: 'New Post', excerpt: '', link: '#' },
+    'footer.links': { label: 'Link', href: '#' }
+  };
+  return defaults[arr] || {};
+}
+
+function toast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  const icon = type === 'ok' ? '✓' : '✕';
+  t.className = `toast ${type}`;
+  t.querySelector('.toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════════════════════
+// IMPORT / EXPORT
+// ═══════════════════════════════════════════════════════
+document.getElementById('btn-export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url;
+  a.download = 'portfolio-data.json'; a.click();
+  URL.revokeObjectURL(url);
+  toast('JSON exported', 'ok');
+});
+
+document.getElementById('json-upload-hidden').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      data = parsed;
+      render();
+      toast('JSON imported: ' + file.name, 'ok');
+    } catch(err) {
+      toast('Invalid JSON file', 'err');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// Copy preview
+document.getElementById('btn-copy-preview').addEventListener('click', () => {
+  navigator.clipboard.writeText(JSON.stringify(data, null, 2))
+    .then(() => toast('Copied to clipboard', 'ok'))
+    .catch(() => toast('Copy failed', 'err'));
+});
+
+// Minify toggle
+document.getElementById('btn-minify').addEventListener('click', () => {
+  previewMinified = !previewMinified;
+  document.getElementById('btn-minify').textContent = previewMinified ? 'Pretty' : 'Minify';
+  renderPreview();
+});
+
+// Nav switching
+document.querySelectorAll('.nav-item[data-section]').forEach(el => {
+  el.addEventListener('click', () => {
+    currentSection = el.dataset.section;
+    render();
+    document.getElementById('editor-pane').scrollTop = 0;
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════
+render();
+</script>
+</body>
+</html>
