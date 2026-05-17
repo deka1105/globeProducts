@@ -69,11 +69,8 @@
       padding: 0 24px;
       display: flex; align-items: center; gap: 12px; height: 56px;
     }
-    .topbar-logo {
-      font-family: var(--font-disp); font-weight: 800; font-size: 1rem;
-      letter-spacing: -0.02em; color: var(--fg); margin-right: 8px;
-    }
-    .topbar-logo span { color: var(--gold); }
+    .topbar-logo { display: flex; align-items: center; margin-right: 8px; }
+    .topbar-logo img { height: 24px; width: auto; display: block; }
     .topbar-sep { width: 1px; height: 20px; background: var(--border); }
     .topbar-label {
       font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
@@ -361,7 +358,7 @@
 
 <!-- TOP BAR -->
 <header class="topbar">
-  <div class="topbar-logo">SD<span>.</span>Folio</div>
+  <div class="topbar-logo"><img src="logo-dark.png" alt="SD.Folio" /></div>
   <div class="topbar-sep"></div>
   <div class="topbar-label">JSON Updater</div>
   <div class="topbar-spacer"></div>
