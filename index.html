@@ -1728,6 +1728,11 @@ setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).r
     document.body.classList.toggle('light', light);
     if (icon) icon.innerHTML = light ? MOON : SUN;
     localStorage.setItem('theme', light ? 'light' : 'dark');
+    const logoSrc = light ? 'logo-light.png' : 'logo-dark.png';
+    const navImg = document.getElementById('nav-logo-img');
+    const splashImg = document.getElementById('splash-logo-img');
+    if (navImg) navImg.src = logoSrc;
+    if (splashImg) splashImg.src = logoSrc;
   }
   const saved = localStorage.getItem('theme');
   applyTheme(saved === 'light');
@@ -2139,13 +2144,10 @@ window.addEventListener('DOMContentLoaded', function(){
     if (id.accentColor) document.documentElement.style.setProperty('--gold', id.accentColor);
 
     if (id.shortName) {
-      const logo = el('nav-logo');
-      if (logo) {
-        const dot = id.shortName.indexOf('.');
-        logo.innerHTML = dot !== -1
-          ? s(id.shortName.slice(0, dot)) + '<span>.</span>' + s(id.shortName.slice(dot + 1))
-          : s(id.shortName);
-      }
+      const navImg = document.getElementById('nav-logo-img');
+      const splashImg = document.getElementById('splash-logo-img');
+      if (navImg) navImg.alt = id.shortName;
+      if (splashImg) splashImg.alt = id.shortName;
     }
 
     const nav = d.nav || {};
