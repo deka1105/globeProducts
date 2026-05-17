@@ -785,10 +785,34 @@
       #contact { padding: 80px 22px; }
     }
     @media (max-width: 600px) {
-      .hero-title { font-size: clamp(2.4rem, 8vw, 3.2rem); }
-      .hero-ctas { gap: 10px; }
-      .btn-primary, .btn-ghost { padding: 12px 22px; font-size: 0.78rem; }
-      .globe-speed { bottom: -44px; }
+      nav { padding: 14px 16px; }
+      .hero-title { font-size: clamp(2rem, 9vw, 2.8rem); }
+      .hero-ctas { gap: 10px; flex-wrap: wrap; }
+      .btn-primary, .btn-ghost { padding: 12px 20px; font-size: 0.78rem; width: 100%; text-align: center; justify-content: center; }
+      #hero { padding: 90px 16px 56px; }
+      .hero-label { font-size: 0.7rem; }
+      .hero-sub { font-size: 0.92rem; }
+      #about { padding: 64px 16px; }
+      .about-bio { font-size: 1rem; }
+      #projects, #blog { padding: 64px 16px; }
+      #contact { padding: 64px 16px; }
+      .contact-inner { padding: 40px 22px; }
+      .contact-title { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+      .section-label { font-size: 0.65rem; }
+      footer { padding: 28px 16px; }
+      #globe-canvas { width: 240px !important; height: 240px !important; }
+      .stat-number { font-size: 2.4rem; }
+      .project-body { padding: 20px 18px; }
+      .blog-card { padding: 22px 20px; }
+      .mobile-drawer { width: 100%; }
+    }
+
+    /* ══ TOUCH DEVICES — disable custom cursor ══ */
+    @media (pointer: coarse) {
+      body { cursor: auto !important; }
+      #cursor-dot, #cursor-ring, .trail-dot { display: none !important; }
+      a, button, [role="button"] { cursor: pointer !important; }
+      .btn-primary, .btn-ghost, .project-card, .blog-card { cursor: pointer !important; }
     }
 
     /* ══ LIGHT MODE ══ */
