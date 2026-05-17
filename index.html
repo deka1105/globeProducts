@@ -521,7 +521,7 @@
        PROJECTS — BENTO GRID
     ══════════════════════════════════════════ */
     #projects {
-      padding: 110px 56px;
+      padding: clamp(56px,8vw,110px) clamp(16px,5vw,56px);
       background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 60%, var(--bg) 100%);
     }
 
@@ -630,7 +630,7 @@
     /* ══════════════════════════════════════════
        BLOG
     ══════════════════════════════════════════ */
-    #blog { padding: 110px 56px; background: var(--bg); }
+    #blog { padding: clamp(56px,8vw,110px) clamp(16px,5vw,56px); background: var(--bg); }
     .blog-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 20px; max-width: 1200px; margin: 0 auto;
