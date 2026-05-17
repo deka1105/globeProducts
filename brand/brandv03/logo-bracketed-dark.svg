@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" fill="#0a0b10"></rect>
+  <path d="M16 24 L8 24 L8 58 L16 58" stroke="#ff6a00" stroke-width="3.5" fill="none" stroke-linejoin="miter" stroke-linecap="square"></path>
+  <text x="24" y="54" font-family="Syne, &#39;Trebuchet MS&#39;, sans-serif" font-size="34" font-weight="700" fill="#f4f1ea" letter-spacing="-1">SD</text>
+  <path d="M68 24 L76 24 L76 58 L68 58" stroke="#ff6a00" stroke-width="3.5" fill="none" stroke-linejoin="miter" stroke-linecap="square"></path>
+  <text x="92" y="54" font-family="Syne, &#39;Trebuchet MS&#39;, sans-serif" font-size="28" font-weight="600" fill="#b8b3a4" letter-spacing="2">FOLIO</text>
+</svg>
