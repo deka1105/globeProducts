@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <g font-family="Syne, &#39;Trebuchet MS&#39;, sans-serif" dominant-baseline="alphabetic">
+    <text x="20" y="54" font-size="42" font-weight="500" fill="#ff6a00">[</text>
+    <text x="44" y="54" font-size="34" font-weight="700" fill="currentColor" letter-spacing="-1">SD</text>
+    <text x="102" y="54" font-size="42" font-weight="500" fill="#ff6a00">]</text>
+    <text x="138" y="50" font-size="13" font-weight="500" fill="currentColor" opacity="0.7" letter-spacing="3.6">FOLIO</text>
+  </g>
+</svg>
