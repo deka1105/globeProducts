@@ -415,41 +415,6 @@
     .globe-ring:nth-child(3) { width: 142%; height: 142%; animation: spinRing 24s linear infinite; border-style: dashed; opacity: 0; }
     #hero.visible .globe-ring:nth-child(3) { opacity: 0.3; }
 
-    /* Globe speed slider */
-    .globe-speed {
-      position: absolute; bottom: -30px; left: 50%;
-      transform: translateX(-50%) translateY(8px);
-      display: flex; align-items: center; gap: 10px;
-      padding: 6px 14px;
-      background: rgba(10,10,18,0.6);
-      border: 1px solid rgba(255,106,0,0.18);
-      border-radius: 999px;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.7s ease 0.9s, transform 0.7s ease 0.9s;
-      z-index: 5;
-    }
-    #hero.visible .globe-speed { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-    .globe-speed-label { font-family: var(--font-display); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--gold); font-weight: 700; }
-    .globe-speed-value { font-family: var(--font-display); font-size: 0.7rem; color: rgba(255,255,255,0.65); min-width: 28px; text-align: left; font-variant-numeric: tabular-nums; }
-    #globe-speed-slider {
-      appearance: none; -webkit-appearance: none;
-      width: 86px; height: 3px; border-radius: 999px;
-      background: linear-gradient(to right, var(--gold) 0%, var(--gold) var(--p,15%), rgba(255,255,255,0.12) var(--p,15%));
-      outline: none; cursor: pointer;
-    }
-    #globe-speed-slider::-webkit-slider-thumb {
-      appearance: none; -webkit-appearance: none;
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 0 2px rgba(7,8,13,0.9), 0 0 8px var(--gold-glow);
-      cursor: pointer; border: none;
-    }
-    #globe-speed-slider::-moz-range-thumb {
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--gold); border: none;
-      box-shadow: 0 0 0 2px rgba(7,8,13,0.9);
-    }
 
     /* ══════════════════════════════════════════
        MARQUEE TICKER
