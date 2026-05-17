@@ -305,7 +305,8 @@
     ══════════════════════════════════════════ */
     #hero {
       min-height: 100vh; display: grid; place-items: center;
-      padding: 120px 56px 80px; overflow: hidden; position: relative;
+      padding: clamp(80px,10vh,120px) clamp(16px,5vw,56px) clamp(60px,8vh,80px);
+      overflow: hidden; position: relative;
     }
 
     /* Dot-grid background */
