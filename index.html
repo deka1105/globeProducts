@@ -327,7 +327,7 @@
 
     .hero-inner {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 72px; align-items: center; max-width: 1200px; width: 100%;
+      gap: clamp(24px,5vw,72px); align-items: center; max-width: 1200px; width: 100%;
       position: relative; z-index: 2;
     }
     .hero-label {
@@ -460,7 +460,7 @@
       position: relative;
     }
     .stat-item {
-      text-align: center; padding: 52px 56px; flex: 1;
+      text-align: center; padding: clamp(28px,4vh,52px) clamp(16px,3vw,56px); flex: 1; min-width: 0;
       border-right: 1px solid var(--border);
       position: relative; overflow: hidden;
       transition: background 0.3s;
