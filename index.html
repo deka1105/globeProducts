@@ -321,9 +321,9 @@
 
     /* Ambient blobs */
     .bg-blob { position: absolute; border-radius: 50%; filter: blur(110px); pointer-events: none; z-index: 0; }
-    .blob-gold   { width: 640px; height: 640px; background: rgba(255,106,0,0.055); top: -160px; right: -140px; }
-    .blob-purple { width: 420px; height: 420px; background: rgba(100,60,200,0.055); bottom: 80px; left: -100px; }
-    .blob-teal   { width: 300px; height: 300px; background: rgba(0,180,180,0.035); top: 40%; left: 40%; transform: translate(-50%,-50%); }
+    .blob-gold   { width: min(640px,90vw); height: min(640px,90vw); background: rgba(255,106,0,0.055); top: -160px; right: -140px; }
+    .blob-purple { width: min(420px,70vw); height: min(420px,70vw); background: rgba(100,60,200,0.055); bottom: 80px; left: -100px; }
+    .blob-teal   { width: min(300px,60vw); height: min(300px,60vw); background: rgba(0,180,180,0.035); top: 40%; left: 40%; transform: translate(-50%,-50%); }
 
     .hero-inner {
       display: grid; grid-template-columns: 1fr 1fr;
