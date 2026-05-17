@@ -426,8 +426,8 @@
 
 <!-- NAV -->
 <nav id="main-nav">
-  <div class="nav-logo">SD<span> </span>Folio</div>
-  <ul class="nav-links">
+  <div class="nav-logo" id="nav-logo">SD<span> </span>Folio</div>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#hero">Home</a></li>
     <li><a href="#projects">Work</a></li>
     <li><a href="#blog">Blog</a></li>
@@ -441,16 +441,16 @@
   <div class="bg-blob blob-purple"></div>
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-label">Shubham A. D. — Builder</div>
+      <div class="hero-label" id="hero-label">Shubham A. D. — Builder</div>
       <h1 class="hero-title" id="hero-title">
-        <span class="line"><span>Crafting</span></span>
-        <span class="line"><span>Digital <em class="hero-accent">Products</em></span></span>
-        <span class="line"><span>That Matter</span></span>
+        <span class="line"><span id="hero-line-1">Crafting</span></span>
+        <span class="line"><span id="hero-line-2">Digital <em class="hero-accent" id="hero-accent">Products</em></span></span>
+        <span class="line"><span id="hero-line-3">That Matter</span></span>
       </h1>
-      <p class="hero-sub">Software engineer building tech products, apps and tools that solve real problems — with code, craft, and attention to detail.</p>
+      <p class="hero-sub" id="hero-sub">Software engineer building tech products, apps and tools that solve real problems — with code, craft, and attention to detail.</p>
       <div class="hero-ctas">
-        <a href="#projects" class="btn-primary">See Work</a>
-        <a href="#contact" class="btn-ghost">Get in Touch</a>
+        <a href="#projects" class="btn-primary" id="hero-cta-primary">See Work</a>
+        <a href="#contact" class="btn-ghost" id="hero-cta-secondary">Get in Touch</a>
       </div>
     </div>
     <div class="globe-wrap">
@@ -468,7 +468,7 @@
 </section>
 
 <!-- STATS -->
-<div class="stats-row">
+<div class="stats-row" id="stats-row">
   <div class="stat-item reveal"><div class="stat-num">12<span>+</span></div><div class="stat-label">Projects Shipped</div></div>
   <div class="stat-item reveal reveal-delay-1"><div class="stat-num">5<span>y</span></div><div class="stat-label">Experience</div></div>
   <div class="stat-item reveal reveal-delay-2"><div class="stat-num">8<span>+</span></div><div class="stat-label">Technologies</div></div>
@@ -483,7 +483,7 @@
     <h2 class="section-title">Projects &amp; <em>Products</em></h2>
     <p class="section-desc">Tech products, software tools, and websites built from the ground up.</p>
   </div>
-  <div class="projects-grid">
+  <div class="projects-grid" id="projects-grid">
     <div class="project-card featured reveal magnetic">
       <div class="project-thumb"><div class="thumb-stripes"></div><div class="project-thumb-label">product screenshot / demo video</div><div class="project-tag">Featured</div></div>
       <div class="project-body">
@@ -535,7 +535,7 @@
     <h2 class="section-title">Blog &amp; <em>Articles</em></h2>
     <p class="section-desc">Thoughts on building, shipping, and the craft of software.</p>
   </div>
-  <div class="blog-grid">
+  <div class="blog-grid" id="blog-grid">
     <div class="blog-card reveal"><div class="blog-date">Apr 2026 · 5 min read</div><div class="blog-title">Why Every Developer Should Ship a SaaS in 30 Days</div><p class="blog-excerpt">The constraints of a deadline unlock creativity. Here's what I learned from shipping fast — and what I'd do differently next time.</p><div class="blog-read">Read →</div></div>
     <div class="blog-card reveal reveal-delay-1"><div class="blog-date">Mar 2026 · 8 min read</div><div class="blog-title">Building CLI Tools That Developers Actually Want to Use</div><p class="blog-excerpt">Great developer tools feel invisible. Designing intuitive CLIs is harder than it looks — here's my framework for getting it right.</p><div class="blog-read">Read →</div></div>
     <div class="blog-card reveal reveal-delay-2"><div class="blog-date">Feb 2026 · 6 min read</div><div class="blog-title">The Stack I Reach For on Every New Project in 2026</div><p class="blog-excerpt">After years of trying everything, here's the opinionated tech stack I default to — and exactly why each choice was made.</p><div class="blog-read">Read →</div></div>
@@ -546,17 +546,17 @@
 <section id="contact">
   <div class="bg-blob blob-gold" style="opacity:0.4;width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
   <div style="position:relative;z-index:1;">
-    <div class="section-label reveal">Let's Build Together</div>
-    <h2 class="section-title reveal" style="margin-top:12px;">Got a project <em>in mind?</em></h2>
-    <p class="section-desc reveal" style="margin-top:16px;">Whether it's a product idea, a collaboration, or just a conversation — I'm always open to interesting work.</p>
-    <div class="reveal" style="margin-top:40px;"><a href="/cdn-cgi/l/email-protection#c1a9a4adadae81b2a9b4a3a9a0a5efa5a4b7" class="btn-primary" style="font-size:1rem;padding:18px 48px;">Say Hello →</a></div>
+    <div class="section-label reveal" id="contact-label">Let's Build Together</div>
+    <h2 class="section-title reveal" id="contact-title" style="margin-top:12px;">Got a project <em id="contact-title-accent">in mind?</em></h2>
+    <p class="section-desc reveal" id="contact-desc" style="margin-top:16px;">Whether it's a product idea, a collaboration, or just a conversation — I'm always open to interesting work.</p>
+    <div class="reveal" style="margin-top:40px;"><a href="/cdn-cgi/l/email-protection#c1a9a4adadae81b2a9b4a3a9a0a5efa5a4b7" class="btn-primary" id="contact-cta" style="font-size:1rem;padding:18px 48px;">Say Hello →</a></div>
   </div>
 </section>
 
 <footer>
-  <div class="footer-name">SD<span> </span>Folio</div>
-  <div class="footer-copy">© 2026 — Built with precision</div>
-  <ul class="footer-links"><li><a href="#">GitHub</a></li><li><a href="#">Twitter</a></li><li><a href="#">LinkedIn</a></li></ul>
+  <div class="footer-name" id="footer-name">SD<span> </span>Folio</div>
+  <div class="footer-copy" id="footer-copy">© 2026 — Built with precision</div>
+  <ul class="footer-links" id="footer-links"><li><a href="#">GitHub</a></li><li><a href="#">Twitter</a></li><li><a href="#">LinkedIn</a></li></ul>
 </footer>
 
 <!-- Tweaks -->
@@ -869,6 +869,273 @@ window.addEventListener('DOMContentLoaded', function(){
     sync();
   }
 });
+</script>
+<!-- ═══════════════════════════════════════════════════════════════
+     JSON DATA LOADER
+     Place portfolio-data.json in the same folder as this file.
+     The page fetches it on load and populates every section.
+     If the file is missing, all hardcoded defaults remain intact.
+═══════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ─── tiny helpers ─── */
+  function s(str) {
+    // safely escape a string for innerHTML insertion
+    return String(str == null ? '' : str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function el(id) { return document.getElementById(id); }
+  function setText(id, val) { const e = el(id); if (e && val != null) e.textContent = val; }
+  function setHTML(id, val) { const e = el(id); if (e && val != null) e.innerHTML = val; }
+
+  /* ─── re-bind interactive behaviours to freshly rendered elements ─── */
+  function bindCards(container) {
+    // magnetic 3-D tilt
+    container.querySelectorAll('.magnetic').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        if (window.__cardTilt === false) return;
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+        const dy = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+        card.style.transform = `perspective(800px) rotateY(${dx*8}deg) rotateX(${-dy*5}deg) scale(1.02)`;
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width  * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(800px) rotateY(0) rotateX(0) scale(1)';
+      });
+    });
+    // cursor ring expand on hover
+    const ring = el('cursor-ring');
+    if (ring) {
+      container.querySelectorAll('.project-card, .blog-card').forEach(c => {
+        c.addEventListener('mouseenter', () => { ring.style.width='56px'; ring.style.height='56px'; ring.style.opacity='1'; });
+        c.addEventListener('mouseleave', () => { ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='0.6'; });
+      });
+    }
+    // scroll-reveal observer
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    container.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+  }
+
+  /* ─── main populate function ─── */
+  function populate(d) {
+    window.__portfolioData = d;
+
+    /* IDENTITY / accent colour */
+    const id = d.identity || {};
+    if (id.accentColor) {
+      document.documentElement.style.setProperty('--gold', id.accentColor);
+    }
+
+    /* NAV LOGO */
+    if (id.shortName) {
+      const logo = el('nav-logo');
+      if (logo) {
+        // preserve dot-highlight pattern: split on first '.'
+        const dot = id.shortName.indexOf('.');
+        logo.innerHTML = dot !== -1
+          ? s(id.shortName.slice(0, dot)) + '<span>.</span>' + s(id.shortName.slice(dot + 1))
+          : s(id.shortName);
+      }
+    }
+
+    /* NAV LINKS */
+    const nav = d.nav || {};
+    if (nav.links && nav.links.length) {
+      setHTML('nav-links', nav.links.map(l =>
+        `<li><a href="${s(l.href)}">${s(l.label)}</a></li>`
+      ).join(''));
+    }
+
+    /* PAGE TITLE */
+    if (id.name) {
+      document.title = id.name + (id.role ? ' — ' + id.role : '');
+    }
+
+    /* HERO */
+    const hero = d.hero || {};
+    if (hero.label)    setText('hero-label', hero.label);
+    if (hero.subtitle) setText('hero-sub',   hero.subtitle);
+
+    if (hero.title && hero.title.length) {
+      const accent = hero.titleAccent || '';
+      function buildSpan(text) {
+        if (accent && text.includes(accent)) {
+          const i = text.indexOf(accent);
+          return s(text.slice(0, i))
+            + `<em class="hero-accent" id="hero-accent">${s(accent)}</em>`
+            + s(text.slice(i + accent.length));
+        }
+        return s(text);
+      }
+      ['hero-line-1','hero-line-2','hero-line-3'].forEach((lineId, i) => {
+        if (hero.title[i] !== undefined) setHTML(lineId, buildSpan(hero.title[i]));
+      });
+    }
+
+    if (hero.ctaPrimary) {
+      const btn = el('hero-cta-primary');
+      if (btn) {
+        if (hero.ctaPrimary.text) btn.textContent = hero.ctaPrimary.text;
+        if (hero.ctaPrimary.href) btn.href = hero.ctaPrimary.href;
+      }
+    }
+    if (hero.ctaSecondary) {
+      const btn = el('hero-cta-secondary');
+      if (btn) {
+        if (hero.ctaSecondary.text) btn.textContent = hero.ctaSecondary.text;
+        if (hero.ctaSecondary.href) btn.href = hero.ctaSecondary.href;
+      }
+    }
+
+    /* STATS */
+    if (d.stats && d.stats.length) {
+      const delays = ['','reveal-delay-1','reveal-delay-2','reveal-delay-3'];
+      setHTML('stats-row', d.stats.map((st, i) =>
+        `<div class="stat-item reveal ${delays[i] || ''}">` +
+        `<div class="stat-num">${s(st.number)}` +
+        (st.suffix ? `<span>${s(st.suffix)}</span>` : '') +
+        `</div><div class="stat-label">${s(st.label)}</div></div>`
+      ).join(''));
+      // re-observe newly rendered stat items
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('#stats-row .reveal').forEach(r => obs.observe(r));
+    }
+
+    /* PROJECTS */
+    if (d.projects && d.projects.length) {
+      const grid = el('projects-grid');
+      if (grid) {
+        const delays = ['','reveal-delay-1','reveal-delay-2'];
+        grid.innerHTML = d.projects.map((p, i) => {
+          const isFeatured = !!p.featured;
+          const chips = (p.stack || []).map(t => `<span class="stack-chip">${s(t)}</span>`).join('');
+          const delay = delays[i % 3];
+          const linkAttr = (p.link && p.link !== '#')
+            ? ` onclick="window.open('${s(p.link)}','_blank')" style="cursor:pointer;"` : '';
+          return (
+            `<div class="project-card${isFeatured ? ' featured' : ''} reveal ${delay} magnetic"${linkAttr}>` +
+            `<div class="project-thumb">` +
+            `<div class="thumb-stripes"></div>` +
+            `<div class="project-thumb-label">${s(p.thumbLabel || '')}</div>` +
+            `<div class="project-tag">${s(p.tag || '')}</div>` +
+            `</div>` +
+            `<div class="project-body">` +
+            `<div class="project-num">${s(p.num || String(i+1).padStart(2,'0'))}</div>` +
+            `<div class="project-name">${s(p.name || '')}</div>` +
+            `<p class="project-desc">${s(p.desc || '')}</p>` +
+            `<div class="project-footer">` +
+            `<div class="project-stack">${chips}</div>` +
+            `<div class="project-arrow">→</div>` +
+            `</div></div></div>`
+          );
+        }).join('');
+        bindCards(grid);
+      }
+    }
+
+    /* BLOG */
+    if (d.blog && d.blog.length) {
+      const blogGrid = el('blog-grid');
+      if (blogGrid) {
+        const delays = ['','reveal-delay-1','reveal-delay-2'];
+        blogGrid.innerHTML = d.blog.map((b, i) => {
+          const linkAttr = (b.link && b.link !== '#')
+            ? ` onclick="window.open('${s(b.link)}','_blank')" style="cursor:pointer;"` : '';
+          return (
+            `<div class="blog-card reveal ${delays[i % 3]}"${linkAttr}>` +
+            `<div class="blog-date">${s(b.date || '')}` +
+            (b.readTime ? ` · ${s(b.readTime)}` : '') +
+            `</div>` +
+            `<div class="blog-title">${s(b.title || '')}</div>` +
+            `<p class="blog-excerpt">${s(b.excerpt || '')}</p>` +
+            `<div class="blog-read">Read →</div>` +
+            `</div>`
+          );
+        }).join('');
+        bindCards(blogGrid);
+      }
+    }
+
+    /* CONTACT */
+    const contact = d.contact || {};
+    if (contact.sectionLabel) setText('contact-label', contact.sectionLabel);
+    if (contact.desc)         setText('contact-desc',  contact.desc);
+    if (contact.title) {
+      const titleEl = el('contact-title');
+      if (titleEl) {
+        const accent = contact.titleAccent || '';
+        if (accent && contact.title.includes(accent)) {
+          const i = contact.title.indexOf(accent);
+          titleEl.innerHTML =
+            s(contact.title.slice(0, i)) +
+            `<em id="contact-title-accent">${s(accent)}</em>` +
+            s(contact.title.slice(i + accent.length));
+        } else {
+          titleEl.textContent = contact.title;
+        }
+      }
+    }
+    const cta = el('contact-cta');
+    if (cta) {
+      if (contact.ctaText) cta.textContent = contact.ctaText;
+      if (contact.email)   cta.href = 'mailto:' + contact.email;
+    }
+
+    /* FOOTER */
+    const footer = d.footer || {};
+    if (footer.name) {
+      const fn = el('footer-name');
+      if (fn) {
+        const dot = footer.name.indexOf('.');
+        fn.innerHTML = dot !== -1
+          ? s(footer.name.slice(0, dot)) + '<span>.</span>' + s(footer.name.slice(dot + 1))
+          : s(footer.name);
+      }
+    }
+    if (footer.copy) setText('footer-copy', footer.copy);
+    if (footer.links && footer.links.length) {
+      setHTML('footer-links', footer.links.map(l =>
+        `<li><a href="${s(l.href)}">${s(l.label)}</a></li>`
+      ).join(''));
+    }
+
+    /* TWEAKS — merge into window globals before React mounts */
+    if (d.tweaks) {
+      const tw = d.tweaks;
+      if (tw.accentColor)   { document.documentElement.style.setProperty('--gold', tw.accentColor); window.__accentColor = tw.accentColor; }
+      if (tw.globeSpeed  != null) window.__globeSpeed    = tw.globeSpeed;
+      if (tw.cardTilt    != null) window.__cardTilt      = tw.cardTilt;
+      if (tw.particleTrail != null) window.__particleTrail = tw.particleTrail;
+      if (tw.frameRate   != null) window.__frameSkip     = Math.max(1, Math.round(60 / tw.frameRate));
+      if (tw.pixelCap    != null) window.__pixelCap      = tw.pixelCap;
+      if (tw.satCount    != null) window.__satCount      = tw.satCount;
+      if (tw.starCount   != null) window.__starCount     = tw.starCount;
+      if (tw.nebula      != null) window.__nebula        = tw.nebula;
+      if (tw.scrollLength != null) document.documentElement.style.setProperty('--iss-driver-h', tw.scrollLength + 'vh');
+    }
+  }
+
+  /* ─── fetch → populate, silently ignore missing file ─── */
+  fetch('portfolio-data.json?' + Date.now())
+    .then(r => { if (!r.ok) throw 0; return r.json(); })
+    .then(json => {
+      populate(json);
+      console.log('[portfolio] Loaded portfolio-data.json ✓');
+    })
+    .catch(() => {
+      console.info('[portfolio] portfolio-data.json not found — using hardcoded defaults.');
+    });
+
+})();
 </script>
 </body>
 </html>
