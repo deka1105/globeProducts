@@ -1137,7 +1137,11 @@ function buildForm() {
    INIT
 ═══════════════════════════════════════════════ */
 function init() {
-  fetch('portfolio-data.json?' + Date.now())
+  // Set window.PORTFOLIO_DATA_URL (e.g. a raw GitHub URL) to load the current
+  // published data; falls back to the local portfolio-data.json.
+  const PORTFOLIO_DATA_URL = window.PORTFOLIO_DATA_URL || 'portfolio-data.json';
+  const dataUrl = PORTFOLIO_DATA_URL + (PORTFOLIO_DATA_URL.includes('?') ? '&' : '?') + 'cb=' + Date.now();
+  fetch(dataUrl)
     .then(r => { if (!r.ok) throw 0; return r.json(); })
     .then(json => {
       DATA = json;
