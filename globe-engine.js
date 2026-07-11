@@ -16,6 +16,9 @@ function hexToRgb(h){
 function getAccentRgb(){
   return hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--gold').trim());
 }
+function prefersReducedMotion(){
+  return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
 
 /* ══════════════════════════════════════════════════════════
    CONTINENT DATA
