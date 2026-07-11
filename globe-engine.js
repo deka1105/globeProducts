@@ -503,7 +503,9 @@ window.initISSIntro = function(){
   }
 
   function frame(){
-    t++;
+    // Honor reduced-motion: freeze the autonomous idle animation (rotation,
+    // twinkle, orbiting satellites) while still redrawing for scroll morph.
+    if(!prefersReducedMotion()) t++;
     // Skip-frame throttle (1=60fps, 2=30fps, 3=20fps)
     const skip=window.__frameSkip||1;
     if(skip>1 && (t%skip)!==0){ requestAnimationFrame(frame); return; }
@@ -640,6 +642,8 @@ window.initHeroGlobe=function(){
     const W=canvas.width,H=canvas.height,R=W*0.45;
     ctx.clearRect(0,0,W,H);
     drawWireGlobe(ctx,W/2,H/2,R,angle);
+    // Honor reduced-motion: render one static frame instead of spinning.
+    if(prefersReducedMotion()) return;
     angle+=(window.__globeSpeed||0.4)*0.004;
     requestAnimationFrame(draw);
   }
