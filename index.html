@@ -2266,6 +2266,14 @@ window.addEventListener('DOMContentLoaded', function(){
         }).join('');
         bindCards(blogGrid);
       }
+    } else {
+      // No blog content — hide the section and its nav links entirely.
+      const blogSection = document.getElementById('blog');
+      if (blogSection) blogSection.style.display = 'none';
+      document.querySelectorAll('a[href="#blog"]').forEach(a => {
+        const li = a.closest('li');
+        (li || a).style.display = 'none';
+      });
     }
 
     const contact = d.contact || {};
