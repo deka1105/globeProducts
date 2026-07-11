@@ -1,0 +1,18 @@
+# Archived / experimental copies — kept in git, excluded from the deployed site
+index03.html
+indexv02.html
+indexv04.html
+globe-enginev02.js
+globe-enginev03.js
+Logo Options.html
+Unused/
+Editable/
+brand/
+
+# Large bug screenshot — not part of the site
+issue.png
+
+# Repo internals — not needed at runtime
+CLAUDE.md
+.claude/
+.DS_Store
