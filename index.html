@@ -2343,11 +2343,17 @@ window.addEventListener('DOMContentLoaded', function(){
 
   showSkeletons();
 
-  fetch('portfolio-data.json?' + Date.now())
+  // ── Portfolio data source ──────────────────────────────────────────────
+  // Set window.PORTFOLIO_DATA_URL (e.g. to a raw GitHub URL) to load content
+  // from a remote file. Falls back to the local portfolio-data.json.
+  const PORTFOLIO_DATA_URL = (typeof window !== 'undefined' && window.PORTFOLIO_DATA_URL) || 'portfolio-data.json';
+  const dataUrl = PORTFOLIO_DATA_URL + (PORTFOLIO_DATA_URL.includes('?') ? '&' : '?') + 'cb=' + Date.now();
+
+  fetch(dataUrl)
     .then(r => { if (!r.ok) throw 0; return r.json(); })
     .then(json => {
       populate(json);
-      console.log('[portfolio] Loaded portfolio-data.json ✓');
+      console.log('[portfolio] Loaded portfolio data ✓', PORTFOLIO_DATA_URL);
     })
     .catch(() => {
       console.info('[portfolio] portfolio-data.json not found — using hardcoded defaults.');
