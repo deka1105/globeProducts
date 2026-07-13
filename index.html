@@ -2237,8 +2237,7 @@ window.addEventListener('DOMContentLoaded', function(){
             `<div class="project-thumb">` +
             (p.thumb
               ? `<img class="thumb-img" src="${s(p.thumb)}" alt="${s(p.name || '')}" loading="lazy" decoding="async" />`
-              : `<div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">${s(p.thumbLabel || '')}</div>`) +
-            `<div class="project-tag">${s(p.tag || '')}</div>` +
+              : `<div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">${s(p.thumbLabel || '')}</div><div class="project-tag">${s(p.tag || '')}</div>`) +
             `</div>` +
             `<div class="project-body">` +
             `<div class="project-num">${s(p.num || String(i+1).padStart(2,'0'))}</div>` +
