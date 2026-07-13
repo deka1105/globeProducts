@@ -2229,9 +2229,9 @@ window.addEventListener('DOMContentLoaded', function(){
           return (
             `<div class="project-card ${bentoClass} reveal ${delay} magnetic"${linkAttr}>` +
             `<div class="project-thumb">` +
-            `<div class="thumb-stripes"></div>` +
-            `<div class="thumb-glow"></div>` +
-            `<div class="project-thumb-label">${s(p.thumbLabel || '')}</div>` +
+            (p.thumb
+              ? `<img class="thumb-img" src="${s(p.thumb)}" alt="${s(p.name || '')}" loading="lazy" decoding="async" />`
+              : `<div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">${s(p.thumbLabel || '')}</div>`) +
             `<div class="project-tag">${s(p.tag || '')}</div>` +
             `</div>` +
             `<div class="project-body">` +
