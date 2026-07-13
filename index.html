@@ -1893,7 +1893,6 @@ setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).r
     document.getElementById('modal-title').textContent = name;
     document.getElementById('modal-desc').textContent  = desc;
     const tagEl = document.getElementById('modal-tag');
-    // recover the tag from the card body num line if no overlay tag exists
     tagEl.textContent = tag || '';
     tagEl.style.display = tag ? '' : 'none';
     const stackEl = document.getElementById('modal-stack');
@@ -2518,6 +2517,7 @@ window.addEventListener('DOMContentLoaded', function(){
     <div class="modal-thumb" id="modal-thumb">
       <div class="modal-thumb-stripes"></div>
       <div class="modal-thumb-glow"></div>
+      <img class="thumb-img" id="modal-thumb-img" alt="" width="800" height="450" style="display:none" />
       <button class="modal-close-btn" id="modal-close" aria-label="Close modal">✕</button>
     </div>
     <div class="modal-body">
