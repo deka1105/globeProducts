@@ -2262,7 +2262,7 @@ window.addEventListener('DOMContentLoaded', function(){
           const cat = catOf(p.tag)[0];
           const linkAttr = (p.link && p.link !== '#') ? ` data-link="${s(p.link)}"` : '';
           return (
-            `<div class="project-card ${bentoClass} reveal ${delay} magnetic" data-cat="${cat}" data-thumb="${s(p.thumb || '')}"${linkAttr} role="button" tabindex="0" aria-label="${s(p.name || '')} — view details" style="cursor:pointer;">` +
+            `<div class="project-card ${bentoClass} reveal ${delay} magnetic" data-cat="${cat}" data-tag="${s(p.tag || '')}" data-thumb="${s(p.thumb || '')}"${linkAttr} role="button" tabindex="0" aria-label="${s(p.name || '')} — view details" style="cursor:pointer;">` +
             `<div class="project-thumb">` +
             (p.thumb
               ? `<img class="thumb-img" src="${s(p.thumb)}" alt="${s(p.name || '')}" width="800" height="450" loading="lazy" decoding="async" />`
