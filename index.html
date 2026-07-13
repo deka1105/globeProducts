@@ -2225,20 +2225,29 @@ window.addEventListener('DOMContentLoaded', function(){
     if (d.projects && d.projects.length) {
       const grid = el('projects-grid');
       if (grid) {
+        // tag -> [filter key, filter label]
+        const CATS = {
+          'Featured':['ai','AI & ML'], 'ML/DS':['ai','AI & ML'], 'AI Tool':['ai','AI & ML'],
+          'Data':['data','Data'], 'Data Viz':['data','Data'],
+          'Desktop App':['apps','Apps'], 'App':['apps','Apps'], 'Mobile App':['apps','Apps'],
+          'Web':['web','Web'], 'Security':['security','Security'],
+          'Automation':['tools','Tools'], 'Tool':['tools','Tools'], 'Scripts':['tools','Tools'],
+          'Game':['game','Game']
+        };
+        const catOf = t => CATS[t] || ['other','Other'];
         const bentoClasses = ['bento-full','bento-wide','bento-tall','',''];
         const delays = ['','reveal-delay-1','reveal-delay-2'];
         grid.innerHTML = d.projects.map((p, i) => {
           const bentoClass = bentoClasses[i] || '';
           const chips = (p.stack || []).map(t => `<span class="stack-chip">${s(t)}</span>`).join('');
           const delay = delays[i % 3];
-          const linkAttr = (p.link && p.link !== '#')
-            ? ` onclick="window.open('${s(p.link)}','_blank')" style="cursor:pointer;"` : '';
-          const isFull = bentoClass === 'bento-full';
+          const cat = catOf(p.tag)[0];
+          const linkAttr = (p.link && p.link !== '#') ? ` data-link="${s(p.link)}"` : '';
           return (
-            `<div class="project-card ${bentoClass} reveal ${delay} magnetic"${linkAttr}>` +
+            `<div class="project-card ${bentoClass} reveal ${delay} magnetic" data-cat="${cat}" data-thumb="${s(p.thumb || '')}"${linkAttr} role="button" tabindex="0" aria-label="${s(p.name || '')} — view details" style="cursor:pointer;">` +
             `<div class="project-thumb">` +
             (p.thumb
-              ? `<img class="thumb-img" src="${s(p.thumb)}" alt="${s(p.name || '')}" loading="lazy" decoding="async" />`
+              ? `<img class="thumb-img" src="${s(p.thumb)}" alt="${s(p.name || '')}" width="800" height="450" loading="lazy" decoding="async" />`
               : `<div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">${s(p.thumbLabel || '')}</div><div class="project-tag">${s(p.tag || '')}</div>`) +
             `</div>` +
             `<div class="project-body">` +
@@ -2252,6 +2261,37 @@ window.addEventListener('DOMContentLoaded', function(){
           );
         }).join('');
         bindCards(grid);
+
+        // ── Category filter bar ─────────────────────────────────────────────
+        const order = ['ai','data','apps','web','tools','security','game','other'];
+        const present = order.filter(k => d.projects.some(p => catOf(p.tag)[0] === k));
+        const labelFor = k => { const hit = Object.values(CATS).find(v => v[0] === k); return hit ? hit[1] : 'Other'; };
+        let bar = document.getElementById('project-filters');
+        if (!bar) {
+          bar = document.createElement('div');
+          bar.id = 'project-filters';
+          bar.className = 'filter-bar';
+          bar.setAttribute('role', 'group');
+          bar.setAttribute('aria-label', 'Filter projects by category');
+          grid.parentNode.insertBefore(bar, grid);
+        }
+        const chipsHtml = ['all'].concat(present).map((k, idx) =>
+          `<button class="filter-chip${idx===0?' active':''}" data-filter="${k}" aria-pressed="${idx===0?'true':'false'}">${k==='all'?'All':labelFor(k)}</button>`
+        ).join('');
+        bar.innerHTML = chipsHtml;
+        bar.addEventListener('click', e => {
+          const btn = e.target.closest('.filter-chip');
+          if (!btn) return;
+          const key = btn.dataset.filter;
+          bar.querySelectorAll('.filter-chip').forEach(c => {
+            const on = c === btn;
+            c.classList.toggle('active', on);
+            c.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          grid.querySelectorAll('.project-card').forEach(card => {
+            card.style.display = (key === 'all' || card.dataset.cat === key) ? '' : 'none';
+          });
+        });
       }
     }
 
