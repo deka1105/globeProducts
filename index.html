@@ -1880,13 +1880,23 @@ setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).r
   function openModal(card) {
     const name  = card.querySelector('.project-name')?.textContent || '';
     const desc  = card.querySelector('.project-desc')?.textContent || '';
-    const tag   = card.querySelector('.project-tag')?.textContent  || '';
+    const tag   = card.querySelector('.project-tag')?.textContent
+                 || card.querySelector('.thumb-img')?.getAttribute('data-tag') || '';
     const chips = Array.from(card.querySelectorAll('.stack-chip')).map(c => c.textContent);
     const link  = card.dataset.link || '';
+    const thumb = card.dataset.thumb || '';
 
+    const img = document.getElementById('modal-thumb-img');
+    if (img) {
+      if (thumb) { img.src = thumb; img.alt = name; img.style.display = ''; }
+      else { img.removeAttribute('src'); img.style.display = 'none'; }
+    }
     document.getElementById('modal-title').textContent = name;
     document.getElementById('modal-desc').textContent  = desc;
-    document.getElementById('modal-tag').textContent   = tag;
+    const tagEl = document.getElementById('modal-tag');
+    // recover the tag from the card body num line if no overlay tag exists
+    tagEl.textContent = tag || '';
+    tagEl.style.display = tag ? '' : 'none';
     const stackEl = document.getElementById('modal-stack');
     stackEl.innerHTML = chips.map(c => `<span class="stack-chip">${c}</span>`).join('');
     const linkEl = document.getElementById('modal-link');
@@ -1895,11 +1905,19 @@ setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).r
     modal.classList.add('open');
   }
 
-  // Delegate — attach to grid, catches dynamically rendered cards too
+  // Delegate — attach to document, catches dynamically rendered cards too
   document.addEventListener('click', e => {
     const card = e.target.closest('#projects-grid .project-card');
     if (!card) return;
     if (e.target.closest('.project-arrow') || e.target.closest('a')) return;
+    openModal(card);
+  });
+  // Keyboard access — Enter/Space opens the modal for a focused card
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest && e.target.closest('#projects-grid .project-card');
+    if (!card) return;
+    e.preventDefault();
     openModal(card);
   });
 })();
