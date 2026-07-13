@@ -25,7 +25,7 @@
   },
 
   "stats": [
-    { "number": "20", "suffix": "+", "label": "Projects Shipped" },
+    { "number": "24", "suffix": "+", "label": "Projects Shipped" },
     { "number": "6",  "suffix": "y", "label": "Experience" },
     { "number": "28", "suffix": "+", "label": "Technologies" },
     { "number": "∞",  "suffix": "",  "label": "Ideas Building" }
