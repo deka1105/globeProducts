@@ -44,6 +44,24 @@
     },
     {
       "num": "02",
+      "name": "SessionForge Browser",
+      "tag": "Desktop App",
+      "thumbLabel": "multi-session browser",
+      "desc": "A custom Electron browser where every tab is its own isolated login session — cookies, localStorage and IndexedDB fully sandboxed per tab — so you can be signed into the same site as many different users at once. Ships as native macOS, Windows and Linux installers.",
+      "stack": ["Electron", "Chromium", "Node.js", "JavaScript"],
+      "link": "https://github.com/deka1105/SessionForgePublic"
+    },
+    {
+      "num": "03",
+      "name": "Multi-Stock Dynamic Dashboard",
+      "tag": "Data",
+      "thumbLabel": "stock dashboard",
+      "desc": "A real-time stock dashboard with multi-ticker comparison, portfolio P&L, technical indicators, sentiment analysis, options flow and an earnings calendar — packaged to run locally via Docker.",
+      "stack": ["TypeScript", "React", "Docker"],
+      "link": "https://github.com/deka1105/MultistockDashboard"
+    },
+    {
+      "num": "04",
       "name": "County Wage Explorer",
       "tag": "Data",
       "thumbLabel": "wage data dashboard",
@@ -52,7 +70,7 @@
       "link": "https://oflcdashboard.sdfolio.com"
     },
     {
-      "num": "03",
+      "num": "05",
       "name": "Agile Task Tracker",
       "tag": "App",
       "thumbLabel": "task tracker UI",
@@ -61,7 +79,16 @@
       "link": "https://agile.sdfolio.com"
     },
     {
-      "num": "04",
+      "num": "06",
+      "name": "Lumon Industries Portfolio",
+      "tag": "Web",
+      "thumbLabel": "isometric portfolio",
+      "desc": "A Severance-themed isometric portfolio — pixel-art rooms, a Three.js first-person view, VHS elevator transitions and a full admin CMS backed by Supabase.",
+      "stack": ["Three.js", "Canvas", "Node.js", "Supabase"],
+      "link": "https://github.com/deka1105/Lumon"
+    },
+    {
+      "num": "07",
       "name": "Real-time Stock Monitoring & Prediction",
       "tag": "ML/DS",
       "thumbLabel": "stock prediction charts",
@@ -70,7 +97,7 @@
       "link": "#"
     },
     {
-      "num": "05",
+      "num": "08",
       "name": "E2E Encryption ChatBot",
       "tag": "Security",
       "thumbLabel": "secure chat interface",
@@ -79,13 +106,112 @@
       "link": "#"
     },
     {
-      "num": "06",
-      "name": "GoHire Automation",
+      "num": "09",
+      "name": "Streamlit Plot Explorer",
       "tag": "Tool",
-      "thumbLabel": "automation script",
+      "thumbLabel": "chart explorer",
+      "desc": "A web-based tool to explore and render Streamlit chart types in an interactive, developer-friendly interface, with live code editing via CodeMirror and Plotly rendering.",
+      "stack": ["JavaScript", "Plotly", "CodeMirror"],
+      "link": "https://github.com/deka1105/StreamlitPlotExplorer"
+    },
+    {
+      "num": "10",
+      "name": "XPath Patcher",
+      "tag": "Tool",
+      "thumbLabel": "content patching engine",
+      "desc": "Replaces text at XPath locations on a page based on rules maintained in a Google Sheet — turning a spreadsheet into a lightweight, no-code content-patching engine.",
+      "stack": ["JavaScript", "XPath", "Google Sheets API"],
+      "link": "https://github.com/deka1105/Xpath_Patcher"
+    },
+    {
+      "num": "11",
+      "name": "GoHire Automation",
+      "tag": "Automation",
+      "thumbLabel": "hiring automation",
       "desc": "A Python and Selenium automation suite that streamlines repetitive hiring-portal workflows, replacing hours of manual data entry.",
       "stack": ["Python", "Selenium", "Automation"],
       "link": "https://github.com/deka1105/GoHireSelenium"
+    },
+    {
+      "num": "12",
+      "name": "Cold Email Automation",
+      "tag": "Automation",
+      "thumbLabel": "cold outreach tool",
+      "desc": "A Python automation suite that streamlines sending, personalizing and tracking cold outreach emails at scale.",
+      "stack": ["Python", "Automation"],
+      "link": "https://github.com/deka1105/ColdEmails"
+    },
+    {
+      "num": "13",
+      "name": "GitHub Auto-Push Analytics",
+      "tag": "Tool",
+      "thumbLabel": "commit analytics",
+      "desc": "A dashboard that visualizes commit and auto-push activity across repositories, turning raw git history into readable analytics.",
+      "stack": ["JavaScript", "Git", "Data Viz"],
+      "link": "https://github.com/deka1105/GitHub-AutoPush-Analytics"
+    },
+    {
+      "num": "14",
+      "name": "Instagram Scraper Bot",
+      "tag": "Automation",
+      "thumbLabel": "instagram scraper",
+      "desc": "An automation bot that scrapes public Instagram content and metadata for downstream collection and analysis.",
+      "stack": ["Python", "Selenium", "Automation"],
+      "link": "https://github.com/deka1105/Instagram-Scraper-Bot"
+    },
+    {
+      "num": "15",
+      "name": "Coursera Scrub",
+      "tag": "Automation",
+      "thumbLabel": "course automation",
+      "desc": "A script that automates repetitive Coursera course tasks to speed up completion of routine coursework.",
+      "stack": ["Python", "Automation"],
+      "link": "https://github.com/deka1105/CourseraScrub"
+    },
+    {
+      "num": "16",
+      "name": "LinkedIn Connection Bot",
+      "tag": "Automation",
+      "thumbLabel": "networking bot",
+      "desc": "An automation tool that helps build more relevant LinkedIn connections by targeting and personalizing outreach.",
+      "stack": ["JavaScript", "Automation"],
+      "link": "https://github.com/deka1105/LinkedInBot"
+    },
+    {
+      "num": "17",
+      "name": "Excel Beauty",
+      "tag": "Tool",
+      "thumbLabel": "excel formatter",
+      "desc": "A Python utility that auto-formats and beautifies Excel workbooks — consistent styling, layout and formatting applied programmatically.",
+      "stack": ["Python", "openpyxl"],
+      "link": "https://github.com/deka1105/ExcelBeauty"
+    },
+    {
+      "num": "18",
+      "name": "Flask + Plotly Dashboards",
+      "tag": "Data Viz",
+      "thumbLabel": "flask dashboards",
+      "desc": "Interactive data dashboards built with Flask and Plotly for serving live, chart-driven views from Python backends.",
+      "stack": ["Python", "Flask", "Plotly"],
+      "link": "https://github.com/deka1105/FlaskPlotly"
+    },
+    {
+      "num": "19",
+      "name": "Wordle Game",
+      "tag": "Game",
+      "thumbLabel": "word game",
+      "desc": "A web-based clone of Wordle — guess a five-letter word in six tries with color-coded feedback on every guess.",
+      "stack": ["Python"],
+      "link": "https://github.com/deka1105/Wordle-Game"
+    },
+    {
+      "num": "20",
+      "name": "Playbooks",
+      "tag": "Scripts",
+      "thumbLabel": "automation scripts",
+      "desc": "A growing collection of small day-to-day automation scripts and utilities built to remove repetitive manual work.",
+      "stack": ["Python", "Automation"],
+      "link": "https://github.com/deka1105/Playbooks"
     }
   ],
 
