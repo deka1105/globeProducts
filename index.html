@@ -1880,8 +1880,7 @@ setTimeout(() => { ReactDOM.createRoot(document.getElementById('tweaks-root')).r
   function openModal(card) {
     const name  = card.querySelector('.project-name')?.textContent || '';
     const desc  = card.querySelector('.project-desc')?.textContent || '';
-    const tag   = card.querySelector('.project-tag')?.textContent
-                 || card.querySelector('.thumb-img')?.getAttribute('data-tag') || '';
+    const tag   = card.dataset.tag || card.querySelector('.project-tag')?.textContent || '';
     const chips = Array.from(card.querySelectorAll('.stack-chip')).map(c => c.textContent);
     const link  = card.dataset.link || '';
     const thumb = card.dataset.thumb || '';
