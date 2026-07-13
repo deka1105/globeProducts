@@ -25,7 +25,7 @@
   },
 
   "stats": [
-    { "number": "14", "suffix": "+", "label": "Projects Shipped" },
+    { "number": "20", "suffix": "+", "label": "Projects Shipped" },
     { "number": "6",  "suffix": "y", "label": "Experience" },
     { "number": "28", "suffix": "+", "label": "Technologies" },
     { "number": "∞",  "suffix": "",  "label": "Ideas Building" }
@@ -212,6 +212,42 @@
       "desc": "A growing collection of small day-to-day automation scripts and utilities built to remove repetitive manual work.",
       "stack": ["Python", "Automation"],
       "link": "https://github.com/deka1105/Playbooks"
+    },
+    {
+      "num": "21",
+      "name": "SessionForge AI Session Manager",
+      "tag": "AI Tool",
+      "thumbLabel": "multi-account AI dashboard",
+      "desc": "A multi-account, multi-provider AI session manager — chat with ChatGPT, Claude and Gemini from a single dashboard, with each session keeping its own isolated login. Built on a FastAPI + Playwright backend driving real browser sessions.",
+      "stack": ["Python", "FastAPI", "Playwright"],
+      "link": "#"
+    },
+    {
+      "num": "22",
+      "name": "RepoHerald",
+      "tag": "Web",
+      "thumbLabel": "repo discovery portal",
+      "desc": "A portal where people and companies post GitHub repos for discovery and starring, powered by a verified-star credit economy — earned credits mint self-highlights or donated highlights, with sponsored repos getting pinned feed placement and an admin portal for moderation.",
+      "stack": ["Next.js", "TypeScript", "Drizzle", "Postgres"],
+      "link": "#"
+    },
+    {
+      "num": "23",
+      "name": "Warehouse Workflow Mapper",
+      "tag": "Tool",
+      "thumbLabel": "workflow builder",
+      "desc": "An interactive web app for designing, visualizing and animating custom warehouse workflows — drag-and-drop nodes, directional edges and real-time package-flow animation, with workflows persisted as CSV for easy sharing.",
+      "stack": ["Flask", "JavaScript"],
+      "link": "#"
+    },
+    {
+      "num": "24",
+      "name": "HabitFarmer",
+      "tag": "Mobile App",
+      "thumbLabel": "habit tracker farm",
+      "desc": "A habit tracker where each habit is a plant on your farm — daily check-ins water your plants through 8 growth stages across 10 varieties, and neglected habits wilt until you return.",
+      "stack": ["SwiftUI", "Next.js", "TypeScript"],
+      "link": "#"
     }
   ],
 
