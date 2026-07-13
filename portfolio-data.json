@@ -45,7 +45,7 @@
   },
   "stats": [
     {
-      "number": "24",
+      "number": "25",
       "suffix": "+",
       "label": "Projects Shipped"
     },
@@ -100,6 +100,21 @@
     },
     {
       "num": "03",
+      "name": "Map Embed Service",
+      "tag": "Data Viz",
+      "thumbLabel": "embeddable world map",
+      "desc": "A zero-dependency Node.js service that turns a JSON list of countries — with optional per-country intensity values — plus your brand colors into a live, embeddable world map. Returns a copy-paste iframe or a JS snippet; update the data with one API call and every embed refreshes automatically. Runs on Node's built-in http and node:sqlite, so it's trivial to self-host.",
+      "stack": [
+        "Node.js",
+        "SQLite",
+        "REST API",
+        "SVG"
+      ],
+      "link": "https://map-plot-api.onrender.com/",
+      "thumb": "assets/thumbs/map-embed-service.svg"
+    },
+    {
+      "num": "04",
       "name": "Multi-Stock Dynamic Dashboard",
       "tag": "Data",
       "thumbLabel": "stock dashboard",
@@ -113,7 +128,7 @@
       "thumb": "assets/thumbs/multistock-dashboard.svg"
     },
     {
-      "num": "04",
+      "num": "05",
       "name": "County Wage Explorer",
       "tag": "Data",
       "thumbLabel": "wage data dashboard",
@@ -127,7 +142,7 @@
       "thumb": "assets/thumbs/county-wage-explorer.svg"
     },
     {
-      "num": "05",
+      "num": "06",
       "name": "Agile Task Tracker",
       "tag": "App",
       "thumbLabel": "task tracker UI",
@@ -140,7 +155,7 @@
       "thumb": "assets/thumbs/agile-task-tracker.svg"
     },
     {
-      "num": "06",
+      "num": "07",
       "name": "Lumon Industries Portfolio",
       "tag": "Web",
       "thumbLabel": "isometric portfolio",
@@ -155,7 +170,7 @@
       "thumb": "assets/thumbs/lumon-portfolio.svg"
     },
     {
-      "num": "07",
+      "num": "08",
       "name": "Real-time Stock Monitoring & Prediction",
       "tag": "ML/DS",
       "thumbLabel": "stock prediction charts",
@@ -169,7 +184,7 @@
       "thumb": "assets/thumbs/stock-prediction.svg"
     },
     {
-      "num": "08",
+      "num": "09",
       "name": "E2E Encryption ChatBot",
       "tag": "Security",
       "thumbLabel": "secure chat interface",
@@ -183,7 +198,7 @@
       "thumb": "assets/thumbs/e2e-encryption-chatbot.svg"
     },
     {
-      "num": "09",
+      "num": "10",
       "name": "Streamlit Plot Explorer",
       "tag": "Tool",
       "thumbLabel": "chart explorer",
@@ -197,7 +212,7 @@
       "thumb": "assets/thumbs/streamlit-plot-explorer.svg"
     },
     {
-      "num": "10",
+      "num": "11",
       "name": "XPath Patcher",
       "tag": "Tool",
       "thumbLabel": "content patching engine",
@@ -211,7 +226,7 @@
       "thumb": "assets/thumbs/xpath-patcher.svg"
     },
     {
-      "num": "11",
+      "num": "12",
       "name": "GoHire Automation",
       "tag": "Automation",
       "thumbLabel": "hiring automation",
@@ -225,7 +240,7 @@
       "thumb": "assets/thumbs/gohire-automation.svg"
     },
     {
-      "num": "12",
+      "num": "13",
       "name": "Cold Email Automation",
       "tag": "Automation",
       "thumbLabel": "cold outreach tool",
@@ -238,7 +253,7 @@
       "thumb": "assets/thumbs/cold-email-automation.svg"
     },
     {
-      "num": "13",
+      "num": "14",
       "name": "GitHub Auto-Push Analytics",
       "tag": "Tool",
       "thumbLabel": "commit analytics",
@@ -252,7 +267,7 @@
       "thumb": "assets/thumbs/autopush-analytics.svg"
     },
     {
-      "num": "14",
+      "num": "15",
       "name": "Instagram Scraper Bot",
       "tag": "Automation",
       "thumbLabel": "instagram scraper",
@@ -266,7 +281,7 @@
       "thumb": "assets/thumbs/instagram-scraper.svg"
     },
     {
-      "num": "15",
+      "num": "16",
       "name": "Coursera Scrub",
       "tag": "Automation",
       "thumbLabel": "course automation",
@@ -279,7 +294,7 @@
       "thumb": "assets/thumbs/coursera-scrub.svg"
     },
     {
-      "num": "16",
+      "num": "17",
       "name": "LinkedIn Connection Bot",
       "tag": "Automation",
       "thumbLabel": "networking bot",
@@ -292,7 +307,7 @@
       "thumb": "assets/thumbs/linkedin-bot.svg"
     },
     {
-      "num": "17",
+      "num": "18",
       "name": "Excel Beauty",
       "tag": "Tool",
       "thumbLabel": "excel formatter",
@@ -305,7 +320,7 @@
       "thumb": "assets/thumbs/excel-beauty.svg"
     },
     {
-      "num": "18",
+      "num": "19",
       "name": "Flask + Plotly Dashboards",
       "tag": "Data Viz",
       "thumbLabel": "flask dashboards",
@@ -319,7 +334,7 @@
       "thumb": "assets/thumbs/flask-plotly.svg"
     },
     {
-      "num": "19",
+      "num": "20",
       "name": "Wordle Game",
       "tag": "Game",
       "thumbLabel": "word game",
@@ -331,7 +346,7 @@
       "thumb": "assets/thumbs/wordle-game.svg"
     },
     {
-      "num": "20",
+      "num": "21",
       "name": "Playbooks",
       "tag": "Scripts",
       "thumbLabel": "automation scripts",
@@ -344,7 +359,7 @@
       "thumb": "assets/thumbs/playbooks.svg"
     },
     {
-      "num": "21",
+      "num": "22",
       "name": "SessionForge AI Session Manager",
       "tag": "AI Tool",
       "thumbLabel": "multi-account AI dashboard",
@@ -358,7 +373,7 @@
       "thumb": "assets/thumbs/sessionforge-ai.svg"
     },
     {
-      "num": "22",
+      "num": "23",
       "name": "RepoHerald",
       "tag": "Web",
       "thumbLabel": "repo discovery portal",
@@ -373,7 +388,7 @@
       "thumb": "assets/thumbs/repoherald.svg"
     },
     {
-      "num": "23",
+      "num": "24",
       "name": "Warehouse Workflow Mapper",
       "tag": "Tool",
       "thumbLabel": "workflow builder",
@@ -386,7 +401,7 @@
       "thumb": "assets/thumbs/warehouse-workflow.svg"
     },
     {
-      "num": "24",
+      "num": "25",
       "name": "HabitFarmer",
       "tag": "Mobile App",
       "thumbLabel": "habit tracker farm",
