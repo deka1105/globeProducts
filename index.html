@@ -600,6 +600,26 @@
       transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
     }
     .project-card:hover .thumb-img { transform: scale(1.04); }
+    /* Category filter bar */
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      max-width: 920px; margin: 0 auto 42px;
+    }
+    .filter-chip {
+      font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.04em;
+      padding: 8px 16px; border-radius: 20px; cursor: pointer;
+      background: transparent; color: var(--fg3);
+      border: 1px solid var(--border); transition: color .25s, background .25s, border-color .25s;
+    }
+    .filter-chip:hover { color: var(--gold); border-color: rgba(255,106,0,0.4); }
+    .filter-chip.active {
+      background: rgba(255,106,0,0.12); color: var(--gold); border-color: rgba(255,106,0,0.4);
+    }
+    /* Accessible focus ring */
+    .filter-chip:focus-visible, .project-card:focus-visible,
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px;
+    }
     .project-tag {
       position: absolute; top: 14px; right: 14px; padding: 4px 10px; border-radius: 20px;
       font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
