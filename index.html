@@ -2384,38 +2384,50 @@ window.addEventListener('DOMContentLoaded', function(){
       console.log('[portfolio] Loaded portfolio data ✓', PORTFOLIO_DATA_URL);
     })
     .catch(() => {
-      console.info('[portfolio] portfolio-data.json not found — using hardcoded defaults.');
-      // Re-render hardcoded defaults by re-running the original HTML (already in DOM before skeletons replaced it)
-      // Restore from inline defaults
+      // Remote source failed — fall back to the locally-deployed copy (kept
+      // in sync via auto-push), so the site always reflects the latest content.
+      if (PORTFOLIO_DATA_URL !== 'portfolio-data.json') {
+        return fetch('portfolio-data.json?cb=' + Date.now())
+          .then(r => { if (!r.ok) throw 0; return r.json(); })
+          .then(json => {
+            populate(json);
+            console.info('[portfolio] Loaded local portfolio-data.json fallback ✓');
+          });
+      }
+      throw 0;
+    })
+    .catch(() => {
+      // Last resort — both remote and local data unavailable. Render a small
+      // set of real projects so the page is never empty.
+      console.info('[portfolio] No portfolio data reachable — using built-in defaults.');
       const grid = el('projects-grid');
       const blogGrid = el('blog-grid');
       if (grid) grid.innerHTML = `
         <div class="project-card bento-full reveal magnetic">
-          <div class="project-thumb"><div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">product screenshot / demo video</div><div class="project-tag">Featured</div></div>
-          <div class="project-body"><div class="project-num">01 — Featured</div><div class="project-name">SaaS Dashboard Platform</div><p class="project-desc">A full-stack analytics platform with real-time data visualization, multi-tenant architecture, and blazing-fast React frontend. Built for scale from day one.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">React</span><span class="stack-chip">Node.js</span><span class="stack-chip">PostgreSQL</span><span class="stack-chip">Redis</span></div><div class="project-arrow">→</div></div></div>
+          <div class="project-thumb"><img class="thumb-img" src="assets/thumbs/ai-log-intelligence.svg" alt="AI Log Intelligence System" loading="lazy" decoding="async" /></div>
+          <div class="project-body"><div class="project-num">01 — Featured</div><div class="project-name">AI Log Intelligence System</div><p class="project-desc">An NLP-based log intelligence platform on Databricks that analyzes 5TB of Linux log data to surface error patterns and anomalies — cutting incident SLA breaches by 42%.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">Databricks</span><span class="stack-chip">Spark</span><span class="stack-chip">Python</span><span class="stack-chip">MLflow</span></div><div class="project-arrow">→</div></div></div>
         </div>
-        <div class="project-card bento-wide reveal reveal-delay-1 magnetic">
-          <div class="project-thumb"><div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">app screenshot</div><div class="project-tag">App</div></div>
-          <div class="project-body"><div class="project-num">02</div><div class="project-name">CLI Dev Tool</div><p class="project-desc">A cross-platform developer utility that automates repetitive setup tasks and scaffolding, saving hours per project.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">TypeScript</span><span class="stack-chip">Node.js</span><span class="stack-chip">CLI</span></div><div class="project-arrow">→</div></div></div>
+        <div class="project-card bento-wide reveal reveal-delay-1 magnetic" onclick="window.open('https://github.com/deka1105/SessionForgePublic','_blank')" style="cursor:pointer;">
+          <div class="project-thumb"><img class="thumb-img" src="assets/thumbs/sessionforge-browser.svg" alt="SessionForge Browser" loading="lazy" decoding="async" /></div>
+          <div class="project-body"><div class="project-num">02</div><div class="project-name">SessionForge Browser</div><p class="project-desc">A custom Electron browser where every tab is its own isolated login session, so you can be signed into the same site as many different users at once.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">Electron</span><span class="stack-chip">Chromium</span><span class="stack-chip">Node.js</span></div><div class="project-arrow">→</div></div></div>
         </div>
-        <div class="project-card bento-tall reveal reveal-delay-2 magnetic">
-          <div class="project-thumb"><div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">tool interface</div><div class="project-tag">Tool</div></div>
-          <div class="project-body"><div class="project-num">03</div><div class="project-name">AI Writing Assistant</div><p class="project-desc">An LLM-powered writing companion with context memory, custom tone presets, and distraction-free editor.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">Python</span><span class="stack-chip">OpenAI</span><span class="stack-chip">FastAPI</span></div><div class="project-arrow">→</div></div></div>
+        <div class="project-card bento-tall reveal reveal-delay-2 magnetic" onclick="window.open('https://github.com/deka1105/MultistockDashboard','_blank')" style="cursor:pointer;">
+          <div class="project-thumb"><img class="thumb-img" src="assets/thumbs/multistock-dashboard.svg" alt="Multi-Stock Dynamic Dashboard" loading="lazy" decoding="async" /></div>
+          <div class="project-body"><div class="project-num">03</div><div class="project-name">Multi-Stock Dynamic Dashboard</div><p class="project-desc">A real-time stock dashboard with multi-ticker comparison, portfolio P&L, technical indicators and sentiment analysis, packaged to run locally via Docker.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">TypeScript</span><span class="stack-chip">React</span><span class="stack-chip">Docker</span></div><div class="project-arrow">→</div></div></div>
         </div>
-        <div class="project-card reveal reveal-delay-1 magnetic">
-          <div class="project-thumb"><div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">website screenshot</div><div class="project-tag">Web</div></div>
-          <div class="project-body"><div class="project-num">04</div><div class="project-name">E-Commerce Engine</div><p class="project-desc">A headless commerce solution with custom storefront, checkout optimization, and inventory management built for speed.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">Next.js</span><span class="stack-chip">Stripe</span><span class="stack-chip">Prisma</span></div><div class="project-arrow">→</div></div></div>
+        <div class="project-card reveal reveal-delay-1 magnetic" onclick="window.open('https://oflcdashboard.sdfolio.com','_blank')" style="cursor:pointer;">
+          <div class="project-thumb"><img class="thumb-img" src="assets/thumbs/county-wage-explorer.svg" alt="County Wage Explorer" loading="lazy" decoding="async" /></div>
+          <div class="project-body"><div class="project-num">04</div><div class="project-name">County Wage Explorer</div><p class="project-desc">An interactive dashboard that explores prevailing wage data across US counties, turning dense OFLC datasets into clear, filterable visual insights.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">React</span><span class="stack-chip">Python</span><span class="stack-chip">Data Viz</span></div><div class="project-arrow">→</div></div></div>
         </div>
-        <div class="project-card reveal reveal-delay-2 magnetic">
-          <div class="project-thumb"><div class="thumb-stripes"></div><div class="thumb-glow"></div><div class="project-thumb-label">app interface</div><div class="project-tag">Mobile</div></div>
-          <div class="project-body"><div class="project-num">05</div><div class="project-name">Focus Timer App</div><p class="project-desc">A minimalist productivity app with deep work sessions, Pomodoro tracking, and sync across devices.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">React Native</span><span class="stack-chip">Expo</span></div><div class="project-arrow">→</div></div></div>
+        <div class="project-card reveal reveal-delay-2 magnetic" onclick="window.open('https://github.com/deka1105/GoHireSelenium','_blank')" style="cursor:pointer;">
+          <div class="project-thumb"><img class="thumb-img" src="assets/thumbs/gohire-automation.svg" alt="GoHire Automation" loading="lazy" decoding="async" /></div>
+          <div class="project-body"><div class="project-num">05</div><div class="project-name">GoHire Automation</div><p class="project-desc">A Python and Selenium automation suite that streamlines repetitive hiring-portal workflows, replacing hours of manual data entry.</p><div class="project-footer"><div class="project-stack"><span class="stack-chip">Python</span><span class="stack-chip">Selenium</span><span class="stack-chip">Automation</span></div><div class="project-arrow">→</div></div></div>
         </div>`;
-      if (blogGrid) blogGrid.innerHTML = `
-        <div class="blog-card reveal"><div class="blog-date">Apr 2026 · 5 min read</div><div class="blog-title">Why Every Developer Should Ship a SaaS in 30 Days</div><p class="blog-excerpt">The constraints of a deadline unlock creativity. Here's what I learned from shipping fast — and what I'd do differently next time.</p><div class="blog-read">Read →</div></div>
-        <div class="blog-card reveal reveal-delay-1"><div class="blog-date">Mar 2026 · 8 min read</div><div class="blog-title">Building CLI Tools That Developers Actually Want to Use</div><p class="blog-excerpt">Great developer tools feel invisible. Designing intuitive CLIs is harder than it looks — here's my framework for getting it right.</p><div class="blog-read">Read →</div></div>
-        <div class="blog-card reveal reveal-delay-2"><div class="blog-date">Feb 2026 · 6 min read</div><div class="blog-title">The Stack I Reach For on Every New Project in 2026</div><p class="blog-excerpt">After years of trying everything, here's the opinionated tech stack I default to — and exactly why each choice was made.</p><div class="blog-read">Read →</div></div>`;
+      // No blog content — hide the section and its nav links.
+      const blogSection = document.getElementById('blog');
+      if (blogSection) blogSection.style.display = 'none';
+      document.querySelectorAll('a[href="#blog"]').forEach(a => { const li = a.closest('li'); (li || a).style.display = 'none'; });
       if (grid) bindCards(grid);
-      if (blogGrid) bindCards(blogGrid);
     });
 
 })();
