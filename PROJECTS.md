@@ -1,10 +1,12 @@
 # Projects — Shubham A. D. (SD.Folio)
 
-All 25 projects from `portfolio-data.json`. Projects marked **No link** have `"link": "#"` in the data file.
+All 25 projects from `portfolio-data.json`.
+
+🔒 = private repo (link 404s for anyone not signed in as `deka1105`). These are **not** yet in `portfolio-data.json` — that file still has `"link": "#"` for them.
 
 | # | Project | Tag | Link |
 |---|---------|-----|------|
-| 01 | AI Log Intelligence System ⭐ Featured | Featured | *No link* |
+| 01 | AI Log Intelligence System ⭐ Featured | Featured | *No repo found* |
 | 02 | SessionForge Browser | Desktop App | https://github.com/deka1105/SessionForgePublic |
 | 03 | Map Embed Service | Data Viz | https://map-plot-api.onrender.com/ |
 | 04 | Multi-Stock Dynamic Dashboard | Data | https://github.com/deka1105/MultistockDashboard |
