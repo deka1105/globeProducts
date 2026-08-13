@@ -13,8 +13,8 @@ All 25 projects from `portfolio-data.json`.
 | 05 | County Wage Explorer | Data | https://oflcdashboard.sdfolio.com |
 | 06 | Agile Task Tracker | App | https://agile.sdfolio.com |
 | 07 | Lumon Industries Portfolio | Web | https://github.com/deka1105/Lumon |
-| 08 | Real-time Stock Monitoring & Prediction | ML/DS | *No link* |
-| 09 | E2E Encryption ChatBot | Security | *No link* |
+| 08 | Real-time Stock Monitoring & Prediction | ML/DS | https://github.com/deka1105/RealTime-Tracker |
+| 09 | E2E Encryption ChatBot | Security | *No repo found* |
 | 10 | Streamlit Plot Explorer | Tool | https://github.com/deka1105/StreamlitPlotExplorer |
 | 11 | XPath Patcher | Tool | https://github.com/deka1105/Xpath_Patcher |
 | 12 | GoHire Automation | Automation | https://github.com/deka1105/GoHireSelenium |
@@ -27,10 +27,10 @@ All 25 projects from `portfolio-data.json`.
 | 19 | Flask + Plotly Dashboards | Data Viz | https://github.com/deka1105/FlaskPlotly |
 | 20 | Wordle Game | Game | https://github.com/deka1105/Wordle-Game |
 | 21 | Playbooks | Scripts | https://github.com/deka1105/Playbooks |
-| 22 | SessionForge AI Session Manager | AI Tool | *No link* |
-| 23 | RepoHerald | Web | *No link* |
-| 24 | Warehouse Workflow Mapper | Tool | *No link* |
-| 25 | HabitFarmer | Mobile App | *No link* |
+| 22 | SessionForge AI Session Manager | AI Tool | 🔒 https://github.com/deka1105/SimuLogin *(likely — confirm)* |
+| 23 | RepoHerald | Web | 🔒 https://github.com/deka1105/repoherald |
+| 24 | Warehouse Workflow Mapper | Tool | 🔒 https://github.com/deka1105/WarehouseFlow |
+| 25 | HabitFarmer | Mobile App | 🔒 https://github.com/deka1105/HabitFarmer |
 
 ---
 
