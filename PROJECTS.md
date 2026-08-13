@@ -37,7 +37,7 @@ All 25 projects from `portfolio-data.json`.
 ## Details
 
 ### 01 — AI Log Intelligence System ⭐ Featured
-**Tag:** Featured · **Stack:** Databricks, Spark, Python, NLP, MLflow · **Link:** *No link*
+**Tag:** Featured · **Stack:** Databricks, Spark, Python, NLP, MLflow · **Link:** *No repo found under `deka1105`*
 
 An NLP-based log intelligence platform on Databricks that analyzes 5TB of Linux log data to surface error patterns and anomalies — cutting incident SLA breaches by 42%. Predictive MLflow models flag production bottlenecks before they escalate.
 
@@ -72,7 +72,9 @@ A full-stack task tracker for agile teams — boards, sprints, and delegation wr
 A Severance-themed isometric portfolio — pixel-art rooms, a Three.js first-person view, VHS elevator transitions and a full admin CMS backed by Supabase.
 
 ### 08 — Real-time Stock Monitoring & Prediction
-**Tag:** ML/DS · **Stack:** Python, TensorFlow, LSTM · **Link:** *No link*
+**Tag:** ML/DS · **Stack:** Python, TensorFlow, LSTM · **Link:** https://github.com/deka1105/RealTime-Tracker
+
+> Note: the repo (Streamlit + yfinance, multi-ticker live charts) covers the visualization half. No LSTM/TensorFlow code is in it — the prediction model lives elsewhere.
 
 Visualizes real-time data for multiple stocks with overlapping graphs, and forecasts future prices using an LSTM model achieving 72% accuracy.
 
