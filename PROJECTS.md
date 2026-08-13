@@ -79,7 +79,7 @@ A Severance-themed isometric portfolio — pixel-art rooms, a Three.js first-per
 Visualizes real-time data for multiple stocks with overlapping graphs, and forecasts future prices using an LSTM model achieving 72% accuracy.
 
 ### 09 — E2E Encryption ChatBot
-**Tag:** Security · **Stack:** Java, Python, Cryptography · **Link:** *No link*
+**Tag:** Security · **Stack:** Java, Python, Cryptography · **Link:** *No repo found under `deka1105`*
 
 A secure chat application built around a novel AES-based encryption algorithm that reduced encryption payload by 12%. Led a team of 4 using Scrum and agile delivery.
 
@@ -144,7 +144,9 @@ A web-based clone of Wordle — guess a five-letter word in six tries with color
 A growing collection of small day-to-day automation scripts and utilities built to remove repetitive manual work.
 
 ### 22 — SessionForge AI Session Manager
-**Tag:** AI Tool · **Stack:** Python, FastAPI, Playwright · **Link:** *No link*
+**Tag:** AI Tool · **Stack:** Python, FastAPI, Playwright · **Link:** 🔒 https://github.com/deka1105/SimuLogin *(likely match — confirm)*
+
+> Note: `SimuLogin` has `session_manager.py`, `chatgpt_client.py` and a multi-session `send_all()` flow, but it's Flask + asyncio, not FastAPI + Playwright. The other candidate is 🔒 `SessionForgeFox`.
 
 A multi-account, multi-provider AI session manager — chat with ChatGPT, Claude and Gemini from a single dashboard, with each session keeping its own isolated login. Built on a FastAPI + Playwright backend driving real browser sessions.
 
