@@ -151,17 +151,17 @@ A growing collection of small day-to-day automation scripts and utilities built 
 A multi-account, multi-provider AI session manager — chat with ChatGPT, Claude and Gemini from a single dashboard, with each session keeping its own isolated login. Built on a FastAPI + Playwright backend driving real browser sessions.
 
 ### 23 — RepoHerald
-**Tag:** Web · **Stack:** Next.js, TypeScript, Drizzle, Postgres · **Link:** *No link*
+**Tag:** Web · **Stack:** Next.js, TypeScript, Drizzle, Postgres · **Link:** 🔒 https://github.com/deka1105/repoherald
 
 A portal where people and companies post GitHub repos for discovery and starring, powered by a verified-star credit economy — earned credits mint self-highlights or donated highlights, with sponsored repos getting pinned feed placement and an admin portal for moderation.
 
 ### 24 — Warehouse Workflow Mapper
-**Tag:** Tool · **Stack:** Flask, JavaScript · **Link:** *No link*
+**Tag:** Tool · **Stack:** Flask, JavaScript · **Link:** 🔒 https://github.com/deka1105/WarehouseFlow
 
 An interactive web app for designing, visualizing and animating custom warehouse workflows — drag-and-drop nodes, directional edges and real-time package-flow animation, with workflows persisted as CSV for easy sharing.
 
 ### 25 — HabitFarmer
-**Tag:** Mobile App · **Stack:** SwiftUI, Next.js, TypeScript · **Link:** *No link*
+**Tag:** Mobile App · **Stack:** SwiftUI, Next.js, TypeScript · **Link:** 🔒 https://github.com/deka1105/HabitFarmer *(iOS app split into 🔒 `HabitFarmer-iOS-v1` / `HabitFarmer-iOS-v2`)*
 
 A habit tracker where each habit is a plant on your farm — daily check-ins water your plants through 8 growth stages across 10 varieties, and neglected habits wilt until you return.
 
