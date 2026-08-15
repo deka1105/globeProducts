@@ -2,7 +2,9 @@
 
 All 25 projects from `portfolio-data.json`.
 
-🔒 = private repo (link 404s for anyone not signed in as `deka1105`). These are **not** yet in `portfolio-data.json` — that file still has `"link": "#"` for them.
+🔒 = private repo (link 404s for anyone not signed in as `deka1105`). These **are** now live in `portfolio-data.json` — make the repos public, or revert those entries to `"#"`, before this goes in front of anyone.
+
+Only 01 and 09 remain `"link": "#"` (no repo found).
 
 | # | Project | Tag | Link |
 |---|---------|-----|------|
