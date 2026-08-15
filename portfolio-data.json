@@ -369,7 +369,7 @@
         "FastAPI",
         "Playwright"
       ],
-      "link": "#",
+      "link": "https://github.com/deka1105/SimuLogin",
       "thumb": "assets/thumbs/sessionforge-ai.svg"
     },
     {
@@ -384,7 +384,7 @@
         "Drizzle",
         "Postgres"
       ],
-      "link": "#",
+      "link": "https://github.com/deka1105/repoherald",
       "thumb": "assets/thumbs/repoherald.svg"
     },
     {
@@ -397,7 +397,7 @@
         "Flask",
         "JavaScript"
       ],
-      "link": "#",
+      "link": "https://github.com/deka1105/WarehouseFlow",
       "thumb": "assets/thumbs/warehouse-workflow.svg"
     },
     {
