@@ -19,10 +19,29 @@ behind the content as decoration.
 
 ## Two ideas hold it together
 
-**All content comes from one JSON file.** `portfolio-data.json` holds identity,
-nav, hero, stats, projects, blog, contact and footer, plus a `tweaks` block of
-globe and UX settings. The HTML is a shell; nothing about *you* is written into
-the markup.
+**All content comes from one JSON file — fetched from GitHub, not from disk.**
+`portfolio-data.json` holds identity, nav, hero, stats, projects, blog, contact
+and footer, plus a `tweaks` block of globe and UX settings.
+
+The page reads it over the network, in three tiers:
+
+1. `raw.githubusercontent.com/deka1105/globeProducts/main/portfolio-data.json` — **always tried first**
+2. the local `portfolio-data.json` — only if that fetch fails
+3. defaults hardcoded in `index.html` — only if both fail, so the page is never empty
+
+This is set at `index.html:7` and resolved at `index.html:2462`. Each fetch
+carries a `?cb=<timestamp>` cache-buster.
+
+**The consequence that matters: editing the local file changes nothing you can
+see.** Even served over HTTP, the page loads the GitHub copy. An edit takes
+effect once it's committed and pushed to `main`. To preview locally, set
+`window.PORTFOLIO_DATA_URL = 'portfolio-data.json'` before load, or comment out
+line 7.
+
+**Tier 3 will drift.** The hardcoded fallback holds a full copy of the projects
+as raw HTML inside `index.html`, and nothing keeps it in step with the JSON. It
+only renders when both other sources are unreachable, so the staleness is
+invisible until the one moment it shows.
 
 **There is a GUI for editing it, in the browser.** The tweaks panel lets you
 adjust the globe and the content live and export the JSON back out — so the site
