@@ -26,7 +26,7 @@
     ]
   },
   "hero": {
-    "label": "Shubham A. D. — Data Engineer",
+    "label": "Shubham A. D. \u2014 Data Engineer",
     "title": [
       "Turning",
       "Data Into",
@@ -60,18 +60,18 @@
       "label": "Technologies"
     },
     {
-      "number": "∞",
+      "number": "\u221e",
       "suffix": "",
       "label": "Ideas Building"
     }
   ],
   "projects": [
     {
-      "num": "01 — Featured",
+      "num": "01 \u2014 Featured",
       "name": "AI Log Intelligence System",
       "tag": "Featured",
       "thumbLabel": "log intelligence dashboard",
-      "desc": "An NLP-based log intelligence platform on Databricks that analyzes 5TB of Linux log data to surface error patterns and anomalies — cutting incident SLA breaches by 42%. Predictive MLflow models flag production bottlenecks before they escalate.",
+      "desc": "An NLP-based log intelligence platform on Databricks that analyzes 5TB of Linux log data to surface error patterns and anomalies \u2014 cutting incident SLA breaches by 42%. Predictive MLflow models flag production bottlenecks before they escalate.",
       "stack": [
         "Databricks",
         "Spark",
@@ -84,11 +84,115 @@
       "thumb": "assets/thumbs/ai-log-intelligence.svg"
     },
     {
-      "num": "02",
+      "name": "Observatory",
+      "tag": "Fire TV / VR",
+      "thumbLabel": "photo wall drifting across a television",
+      "desc": "A wall of your own photographs that drifts across the television \u2014 dim and monochrome until the remote points at one, which blooms into full colour. Built natively on React Native for Vega, and again in WebXR as a sphere you sit inside on Quest.",
+      "stack": [
+        "React Native",
+        "Vega OS",
+        "WebXR",
+        "Three.js"
+      ],
+      "link": "https://github.com/deka1105/Observatory",
+      "thumb": "assets/thumbs/observatory.svg",
+      "num": "02"
+    },
+    {
+      "name": "Ring Event Wall",
+      "tag": "Ring / Fire TV",
+      "thumbLabel": "door events as an ambient wall",
+      "desc": "Everyone who came to your door, as an ambient wall on the living-room screen. The size of each tile is how much it mattered \u2014 a doorbell press dwarfs a passing car \u2014 so the wall is legible from across the room without touching the remote.",
+      "stack": [
+        "React Native",
+        "Ring API",
+        "Vega OS",
+        "TypeScript"
+      ],
+      "link": "https://github.com/deka1105/RingEventWall",
+      "thumb": "assets/thumbs/ringeventwall.svg",
+      "num": "03"
+    },
+    {
+      "name": "CasaVault",
+      "tag": "AI",
+      "thumbLabel": "lease document with a shield",
+      "desc": "Upload your lease and find out what it actually says about your rights. Turns a dense rental contract into plain answers about what the landlord can and cannot do.",
+      "stack": [
+        "Python",
+        "FastAPI",
+        "AI",
+        "SQLite"
+      ],
+      "link": "https://github.com/deka1105/CasaVault",
+      "thumb": "assets/thumbs/casavault.svg",
+      "num": "04"
+    },
+    {
+      "name": "DeskAssist",
+      "tag": "Desktop App",
+      "thumbLabel": "button deck beside a phone",
+      "desc": "A Stream Deck without the hardware. No Mac required and no account \u2014 open the app, tap a button, and it fires on your computer. Desktop and mobile halves pair directly.",
+      "stack": [
+        "React Native",
+        "Electron",
+        "WebSockets",
+        "TypeScript"
+      ],
+      "link": "https://github.com/deka1105/StreamDeck-Premium",
+      "thumb": "assets/thumbs/deskassist.svg",
+      "num": "05"
+    },
+    {
+      "name": "streamPhoneDeck",
+      "tag": "Mobile",
+      "thumbLabel": "phone beaming controls to a screen",
+      "desc": "Turn your phone into a Stream Deck-style control surface. Tap a button and it launches an app, opens a URL, sends a keyboard shortcut or types text on your computer, in real time \u2014 paired by scanning a QR code.",
+      "stack": [
+        "React Native",
+        "Next.js",
+        "WebSockets",
+        "Expo"
+      ],
+      "link": "https://github.com/deka1105/streamPhoneDeck",
+      "thumb": "assets/thumbs/streamphonedeck.svg",
+      "num": "06"
+    },
+    {
+      "name": "YC Pilots",
+      "tag": "Automation",
+      "thumbLabel": "funnel from companies to one pilot",
+      "desc": "Give it a company name. It researches the product, maps the use cases, proposes a handful of small pilots that resolve them, and builds the one you pick \u2014 a graph engine routing each stage, with a human gate before anything gets built.",
+      "stack": [
+        "Next.js",
+        "Neon",
+        "Claude Code",
+        "TypeScript"
+      ],
+      "link": "https://github.com/deka1105/yc-pilots",
+      "thumb": "assets/thumbs/yc-pilots.svg",
+      "num": "07"
+    },
+    {
+      "name": "3D Print MSP",
+      "tag": "Product",
+      "thumbLabel": "print nozzle laying down layers",
+      "desc": "A three-sided marketplace connecting indie 3D designers, local printer owners and collectors \u2014 delivering custom 3D-printed miniatures in 24 hours or less. Market research, financial model and pitch deck included.",
+      "stack": [
+        "Marketplace",
+        "Research",
+        "Financial Model"
+      ],
+      "link": "https://github.com/deka1105/3DPrintMaket",
+      "thumb": "assets/thumbs/3dprint-msp.svg",
+      "num": "08"
+    },
+    {
+      "num": "09",
       "name": "SessionForge Browser",
       "tag": "Desktop App",
       "thumbLabel": "multi-session browser",
-      "desc": "A custom Electron browser where every tab is its own isolated login session — cookies, localStorage and IndexedDB fully sandboxed per tab — so you can be signed into the same site as many different users at once. Ships as native macOS, Windows and Linux installers.",
+      "desc": "A custom Electron browser where every tab is its own isolated login session \u2014 cookies, localStorage and IndexedDB fully sandboxed per tab \u2014 so you can be signed into the same site as many different users at once. Ships as native macOS, Windows and Linux installers.",
       "stack": [
         "Electron",
         "Chromium",
@@ -99,11 +203,11 @@
       "thumb": "assets/thumbs/sessionforge-browser.svg"
     },
     {
-      "num": "03",
+      "num": "10",
       "name": "Map Embed Service",
       "tag": "Data Viz",
       "thumbLabel": "embeddable world map",
-      "desc": "A zero-dependency Node.js service that turns a JSON list of countries — with optional per-country intensity values — plus your brand colors into a live, embeddable world map. Returns a copy-paste iframe or a JS snippet; update the data with one API call and every embed refreshes automatically. Runs on Node's built-in http and node:sqlite, so it's trivial to self-host.",
+      "desc": "A zero-dependency Node.js service that turns a JSON list of countries \u2014 with optional per-country intensity values \u2014 plus your brand colors into a live, embeddable world map. Returns a copy-paste iframe or a JS snippet; update the data with one API call and every embed refreshes automatically. Runs on Node's built-in http and node:sqlite, so it's trivial to self-host.",
       "stack": [
         "Node.js",
         "SQLite",
@@ -114,11 +218,11 @@
       "thumb": "assets/thumbs/map-embed-service.svg"
     },
     {
-      "num": "04",
+      "num": "11",
       "name": "Multi-Stock Dynamic Dashboard",
       "tag": "Data",
       "thumbLabel": "stock dashboard",
-      "desc": "A real-time stock dashboard with multi-ticker comparison, portfolio P&L, technical indicators, sentiment analysis, options flow and an earnings calendar — packaged to run locally via Docker.",
+      "desc": "A real-time stock dashboard with multi-ticker comparison, portfolio P&L, technical indicators, sentiment analysis, options flow and an earnings calendar \u2014 packaged to run locally via Docker.",
       "stack": [
         "TypeScript",
         "React",
@@ -128,7 +232,7 @@
       "thumb": "assets/thumbs/multistock-dashboard.svg"
     },
     {
-      "num": "05",
+      "num": "12",
       "name": "County Wage Explorer",
       "tag": "Data",
       "thumbLabel": "wage data dashboard",
@@ -142,11 +246,11 @@
       "thumb": "assets/thumbs/county-wage-explorer.svg"
     },
     {
-      "num": "06",
+      "num": "13",
       "name": "Agile Task Tracker",
       "tag": "App",
       "thumbLabel": "task tracker UI",
-      "desc": "A full-stack task tracker for agile teams — boards, sprints, and delegation wrapped in a minimal, functional UI built for day-to-day flow.",
+      "desc": "A full-stack task tracker for agile teams \u2014 boards, sprints, and delegation wrapped in a minimal, functional UI built for day-to-day flow.",
       "stack": [
         "React",
         "Node.js"
@@ -155,11 +259,11 @@
       "thumb": "assets/thumbs/agile-task-tracker.svg"
     },
     {
-      "num": "07",
+      "num": "14",
       "name": "Lumon Industries Portfolio",
       "tag": "Web",
       "thumbLabel": "isometric portfolio",
-      "desc": "A Severance-themed isometric portfolio — pixel-art rooms, a Three.js first-person view, VHS elevator transitions and a full admin CMS backed by Supabase.",
+      "desc": "A Severance-themed isometric portfolio \u2014 pixel-art rooms, a Three.js first-person view, VHS elevator transitions and a full admin CMS backed by Supabase.",
       "stack": [
         "Three.js",
         "Canvas",
@@ -170,7 +274,7 @@
       "thumb": "assets/thumbs/lumon-portfolio.svg"
     },
     {
-      "num": "08",
+      "num": "15",
       "name": "Real-time Stock Monitoring & Prediction",
       "tag": "ML/DS",
       "thumbLabel": "stock prediction charts",
@@ -184,7 +288,7 @@
       "thumb": "assets/thumbs/stock-prediction.svg"
     },
     {
-      "num": "09",
+      "num": "16",
       "name": "E2E Encryption ChatBot",
       "tag": "Security",
       "thumbLabel": "secure chat interface",
@@ -198,7 +302,7 @@
       "thumb": "assets/thumbs/e2e-encryption-chatbot.svg"
     },
     {
-      "num": "10",
+      "num": "17",
       "name": "Streamlit Plot Explorer",
       "tag": "Tool",
       "thumbLabel": "chart explorer",
@@ -212,11 +316,11 @@
       "thumb": "assets/thumbs/streamlit-plot-explorer.svg"
     },
     {
-      "num": "11",
+      "num": "18",
       "name": "XPath Patcher",
       "tag": "Tool",
       "thumbLabel": "content patching engine",
-      "desc": "Replaces text at XPath locations on a page based on rules maintained in a Google Sheet — turning a spreadsheet into a lightweight, no-code content-patching engine.",
+      "desc": "Replaces text at XPath locations on a page based on rules maintained in a Google Sheet \u2014 turning a spreadsheet into a lightweight, no-code content-patching engine.",
       "stack": [
         "JavaScript",
         "XPath",
@@ -226,7 +330,7 @@
       "thumb": "assets/thumbs/xpath-patcher.svg"
     },
     {
-      "num": "12",
+      "num": "19",
       "name": "GoHire Automation",
       "tag": "Automation",
       "thumbLabel": "hiring automation",
@@ -240,7 +344,7 @@
       "thumb": "assets/thumbs/gohire-automation.svg"
     },
     {
-      "num": "13",
+      "num": "20",
       "name": "Cold Email Automation",
       "tag": "Automation",
       "thumbLabel": "cold outreach tool",
@@ -253,7 +357,7 @@
       "thumb": "assets/thumbs/cold-email-automation.svg"
     },
     {
-      "num": "14",
+      "num": "21",
       "name": "GitHub Auto-Push Analytics",
       "tag": "Tool",
       "thumbLabel": "commit analytics",
@@ -267,7 +371,7 @@
       "thumb": "assets/thumbs/autopush-analytics.svg"
     },
     {
-      "num": "15",
+      "num": "22",
       "name": "Instagram Scraper Bot",
       "tag": "Automation",
       "thumbLabel": "instagram scraper",
@@ -281,7 +385,7 @@
       "thumb": "assets/thumbs/instagram-scraper.svg"
     },
     {
-      "num": "16",
+      "num": "23",
       "name": "Coursera Scrub",
       "tag": "Automation",
       "thumbLabel": "course automation",
@@ -294,7 +398,7 @@
       "thumb": "assets/thumbs/coursera-scrub.svg"
     },
     {
-      "num": "17",
+      "num": "24",
       "name": "LinkedIn Connection Bot",
       "tag": "Automation",
       "thumbLabel": "networking bot",
@@ -307,11 +411,11 @@
       "thumb": "assets/thumbs/linkedin-bot.svg"
     },
     {
-      "num": "18",
+      "num": "25",
       "name": "Excel Beauty",
       "tag": "Tool",
       "thumbLabel": "excel formatter",
-      "desc": "A Python utility that auto-formats and beautifies Excel workbooks — consistent styling, layout and formatting applied programmatically.",
+      "desc": "A Python utility that auto-formats and beautifies Excel workbooks \u2014 consistent styling, layout and formatting applied programmatically.",
       "stack": [
         "Python",
         "openpyxl"
@@ -320,7 +424,7 @@
       "thumb": "assets/thumbs/excel-beauty.svg"
     },
     {
-      "num": "19",
+      "num": "26",
       "name": "Flask + Plotly Dashboards",
       "tag": "Data Viz",
       "thumbLabel": "flask dashboards",
@@ -334,11 +438,11 @@
       "thumb": "assets/thumbs/flask-plotly.svg"
     },
     {
-      "num": "20",
+      "num": "27",
       "name": "Wordle Game",
       "tag": "Game",
       "thumbLabel": "word game",
-      "desc": "A web-based clone of Wordle — guess a five-letter word in six tries with color-coded feedback on every guess.",
+      "desc": "A web-based clone of Wordle \u2014 guess a five-letter word in six tries with color-coded feedback on every guess.",
       "stack": [
         "Python"
       ],
@@ -346,7 +450,7 @@
       "thumb": "assets/thumbs/wordle-game.svg"
     },
     {
-      "num": "21",
+      "num": "28",
       "name": "Playbooks",
       "tag": "Scripts",
       "thumbLabel": "automation scripts",
@@ -359,11 +463,11 @@
       "thumb": "assets/thumbs/playbooks.svg"
     },
     {
-      "num": "22",
+      "num": "29",
       "name": "SessionForge AI Session Manager",
       "tag": "AI Tool",
       "thumbLabel": "multi-account AI dashboard",
-      "desc": "A multi-account, multi-provider AI session manager — chat with ChatGPT, Claude and Gemini from a single dashboard, with each session keeping its own isolated login. Built on a FastAPI + Playwright backend driving real browser sessions.",
+      "desc": "A multi-account, multi-provider AI session manager \u2014 chat with ChatGPT, Claude and Gemini from a single dashboard, with each session keeping its own isolated login. Built on a FastAPI + Playwright backend driving real browser sessions.",
       "stack": [
         "Python",
         "FastAPI",
@@ -373,11 +477,11 @@
       "thumb": "assets/thumbs/sessionforge-ai.svg"
     },
     {
-      "num": "23",
+      "num": "30",
       "name": "RepoHerald",
       "tag": "Web",
       "thumbLabel": "repo discovery portal",
-      "desc": "A portal where people and companies post GitHub repos for discovery and starring, powered by a verified-star credit economy — earned credits mint self-highlights or donated highlights, with sponsored repos getting pinned feed placement and an admin portal for moderation.",
+      "desc": "A portal where people and companies post GitHub repos for discovery and starring, powered by a verified-star credit economy \u2014 earned credits mint self-highlights or donated highlights, with sponsored repos getting pinned feed placement and an admin portal for moderation.",
       "stack": [
         "Next.js",
         "TypeScript",
@@ -388,11 +492,11 @@
       "thumb": "assets/thumbs/repoherald.svg"
     },
     {
-      "num": "24",
+      "num": "31",
       "name": "Warehouse Workflow Mapper",
       "tag": "Tool",
       "thumbLabel": "workflow builder",
-      "desc": "An interactive web app for designing, visualizing and animating custom warehouse workflows — drag-and-drop nodes, directional edges and real-time package-flow animation, with workflows persisted as CSV for easy sharing.",
+      "desc": "An interactive web app for designing, visualizing and animating custom warehouse workflows \u2014 drag-and-drop nodes, directional edges and real-time package-flow animation, with workflows persisted as CSV for easy sharing.",
       "stack": [
         "Flask",
         "JavaScript"
@@ -401,11 +505,11 @@
       "thumb": "assets/thumbs/warehouse-workflow.svg"
     },
     {
-      "num": "25",
+      "num": "32",
       "name": "HabitFarmer",
       "tag": "Mobile App",
       "thumbLabel": "habit tracker farm",
-      "desc": "A habit tracker where each habit is a plant on your farm — daily check-ins water your plants through 8 growth stages across 10 varieties, and neglected habits wilt until you return.",
+      "desc": "A habit tracker where each habit is a plant on your farm \u2014 daily check-ins water your plants through 8 growth stages across 10 varieties, and neglected habits wilt until you return.",
       "stack": [
         "SwiftUI",
         "Next.js",
@@ -420,13 +524,13 @@
     "sectionLabel": "Let's Build Together",
     "title": "Got a project in mind?",
     "titleAccent": "in mind?",
-    "desc": "Whether it's a data product, an ML pipeline, a collaboration, or just a conversation — I'm always open to interesting work.",
-    "ctaText": "Say Hello →",
+    "desc": "Whether it's a data product, an ML pipeline, a collaboration, or just a conversation \u2014 I'm always open to interesting work.",
+    "ctaText": "Say Hello \u2192",
     "email": "shubhamdekatey@gmail.com"
   },
   "footer": {
     "name": "SD.Folio",
-    "copy": "© 2026 Shubham A. D. — Built with precision",
+    "copy": "\u00a9 2026 Shubham A. D. \u2014 Built with precision",
     "links": [
       {
         "label": "GitHub",
